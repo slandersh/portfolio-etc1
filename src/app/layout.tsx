@@ -4,6 +4,7 @@ import "@/resources/custom.css";
 
 import classNames from "classnames";
 
+// biome-ignore lint/style/useImportType: <explanation>
 import {
   Background,
   Column,
@@ -47,6 +48,7 @@ export default async function RootLayout({
       <head>
         <script
           id="theme-init"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
           dangerouslySetInnerHTML={{
             __html: `
               (function() {

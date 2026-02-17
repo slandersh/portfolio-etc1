@@ -1,10 +1,10 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
   firstName: "Selene",
   lastName: "Yu",
-  name: `Selene Yu`,
+  name: "Selene Yu",
   role: "Design Engineer",
   avatar: "/images/avatar.jpg",
   email: "example@gmail.com",
@@ -14,8 +14,8 @@ const person: Person = {
 
 const newsletter: Newsletter = {
   display: true,
-  title: <>Subscribe to {person.firstName}'s Newsletter</>,
-  description: <>My weekly newsletter about creativity and engineering</>,
+  title: `Subscribe to ${person.firstName}'s Newsletter`,
+  description: "My weekly newsletter about creativity and engineering",
 };
 
 const social: Social = [
@@ -60,7 +60,7 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  headline: "Building bridges between design and code",
   featured: {
     display: true,
     title: (
@@ -101,11 +101,9 @@ const about: About = {
     display: true,
     title: "Introduction",
     description: (
-      <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
-      </>
+      "Selene is a Jakarta-based design engineer with a passion for transforming complex challenges " +
+      "into simple, elegant design solutions. Her work spans digital interfaces, interactive " +
+      "experiences, and the convergence of design and technology."
     ),
   },
   work: {
@@ -117,14 +115,8 @@ const about: About = {
         timeframe: "2022 - Present",
         role: "Senior Design Engineer",
         achievements: [
-          <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
-          </>,
-          <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
-          </>,
+          "Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user engagement and 30% faster load times.",
+          "Spearheaded the integration of AI tools into design workflows, enabling designers to iterate 50% faster.",
         ],
         images: [
           // optional: leave the array empty if you don't want to display images
@@ -141,14 +133,8 @@ const about: About = {
         timeframe: "2018 - 2022",
         role: "Lead Designer",
         achievements: [
-          <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
-          </>,
-          <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
-          </>,
+          "Developed a design system that unified the brand across multiple platforms, improving design consistency by 40%.",
+          "Led a cross-functional team to launch a new product line, contributing to a 15% increase in overall company revenue.",
         ],
         images: [],
       },
@@ -160,11 +146,11 @@ const about: About = {
     institutions: [
       {
         name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        description: "Studied software engineering.",
       },
       {
         name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        description: "Studied online marketing and personal branding.",
       },
     ],
   },
@@ -174,9 +160,7 @@ const about: About = {
     skills: [
       {
         title: "Figma",
-        description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
-        ),
+        description: "Able to prototype in Figma with Once UI with unnatural speed.",
         tags: [
           {
             name: "Figma",
@@ -201,9 +185,7 @@ const about: About = {
       },
       {
         title: "Next.js",
-        description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
-        ),
+        description: "Building next gen apps with Next.js + Once UI + Supabase.",
         tags: [
           {
             name: "JavaScript",

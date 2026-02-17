@@ -15,7 +15,7 @@ import {
 import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
-import React from "react";
+import { Fragment, type ReactNode } from "react";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -168,7 +168,7 @@ export default function About() {
                       .map(
                   (item) =>
                     item.link && (
-                      <React.Fragment key={item.name}>
+                      <Fragment key={item.name}>
                         <Row s={{ hide: true }}>
                           <Button
                             key={item.name}
@@ -189,7 +189,7 @@ export default function About() {
                             variant="secondary"
                           />
                         </Row>
-                      </React.Fragment>
+                      </Fragment>
                     ),
                 )}
               </Row>
@@ -221,19 +221,15 @@ export default function About() {
                     <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
                       {experience.role}
                     </Text>
-                    <Column as="ul" gap="16">
-                      {experience.achievements.map(
-                        (achievement: React.ReactNode, index: number) => (
-                          <Text
-                            as="li"
-                            variant="body-default-m"
-                            key={`${experience.company}-achievement-${index}`}
-                          >
-                            {achievement}
-                          </Text>
-                        ),
-                      )}
-                    </Column>
+                      {experience.achievements.map((achievement: ReactNode, index: number) => (
+                        <Text
+                          as="li"
+                          variant="body-default-m"
+                          key={`${experience.company}-achievement-${index}`}
+                        >
+                          {achievement}
+                        </Text>
+                      ))}
                     {experience.images && experience.images.length > 0 && (
                       <Row fillWidth paddingTop="m" paddingLeft="40" gap="12" wrap>
                         {experience.images.map((image) => (
@@ -302,8 +298,8 @@ export default function About() {
                     </Text>
                     {skill.tags && skill.tags.length > 0 && (
                       <Row wrap gap="8" paddingTop="8">
-                        {skill.tags.map((tag, tagIndex) => (
-                          <Tag key={`${skill.title}-${tagIndex}`} size="l" prefixIcon={tag.icon}>
+                        {skill.tags.map((tag) => (
+                          <Tag key={tag.name} size="l" prefixIcon={tag.icon}>
                             {tag.name}
                           </Tag>
                         ))}

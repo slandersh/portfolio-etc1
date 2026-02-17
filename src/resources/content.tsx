@@ -6,7 +6,7 @@ const person: Person = {
   lastName: "Santoso",
   name: "Roy Subagya Santoso",
   role: "Fullstack Developer",
-  avatar: "/images/Avatar.png",
+  avatar: "/images/avatar.png",
   email: "roysubagya01@gmail.com",
   location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
   languages: ["English (middle)", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
@@ -117,8 +117,14 @@ const about: About = {
         timeframe: "2022 - Present",
         role: "Senior Design Engineer",
         achievements: [
-          "Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user engagement and 30% faster load times.",
-          "Spearheaded the integration of AI tools into design workflows, enabling designers to iterate 50% faster.",
+          <>
+            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
+            engagement and 30% faster load times.
+          </>,
+          <>
+            Spearheaded the integration of AI tools into design workflows, enabling designers to
+            iterate 50% faster.
+          </>,
         ],
         images: [
           // optional: leave the array empty if you don't want to display images
@@ -135,8 +141,14 @@ const about: About = {
         timeframe: "2018 - 2022",
         role: "Lead Designer",
         achievements: [
-          "Developed a design system that unified the brand across multiple platforms, improving design consistency by 40%.",
-          "Led a cross-functional team to launch a new product line, contributing to a 15% increase in overall company revenue.",
+          <>
+            Developed a design system that unified the brand across multiple platforms, improving
+            design consistency by 40%.
+          </>,
+          <>
+            Led a cross-functional team to launch a new product line, contributing to a 15% increase
+            in overall company revenue.
+          </>,
         ],
         images: [],
       },
@@ -148,11 +160,11 @@ const about: About = {
     institutions: [
       {
         name: "University of Jakarta",
-        description: "Studied software engineering.",
+        description: <>Studied software engineering.</>,
       },
       {
         name: "Build the Future",
-        description: "Studied online marketing and personal branding.",
+        description: <>Studied online marketing and personal branding.</>,
       },
     ],
   },
@@ -162,7 +174,9 @@ const about: About = {
     skills: [
       {
         title: "Figma",
-        description: "Able to prototype in Figma with Once UI with unnatural speed.",
+        description: (
+          <>Able to prototype in Figma with Once UI with unnatural speed.</>
+        ),
         tags: [
           {
             name: "Figma",
@@ -187,7 +201,9 @@ const about: About = {
       },
       {
         title: "Next.js",
-        description: "Building next gen apps with Next.js + Once UI + Supabase.",
+        description: (
+          <>Building next gen apps with Next.js + Once UI + Supabase.</>
+        ),
         tags: [
           {
             name: "JavaScript",

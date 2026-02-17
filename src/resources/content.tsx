@@ -1,15 +1,15 @@
-import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
-  firstName: "Roy Subagya ",
-  lastName: "Santoso",
-  name: "Roy Subagya Santoso",
-  role: "Fullstack Developer",
-  avatar: "/images/avatar.png",
-  email: "roysubagya01@gmail.com",
+  firstName: "Selene",
+  lastName: "Yu",
+  name: `Selene Yu`,
+  role: "Design Engineer",
+  avatar: "/images/avatar.jpg",
+  email: "example@gmail.com",
   location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English (middle)", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
 };
 
 const newsletter: Newsletter = {
@@ -25,25 +25,25 @@ const social: Social = [
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/slandersh991",
+    link: "https://github.com/once-ui-system",
     essential: true,
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/roy-subagya-santoso/",
+    link: "https://www.linkedin.com/company/once-ui/",
     essential: true,
   },
   {
     name: "Instagram",
     icon: "instagram",
-    link: "https://www.instagram.com/ry.universe_/",
-    essential: true,
+    link: "https://www.instagram.com/once_ui/",
+    essential: false,
   },
   {
     name: "Threads",
     icon: "threads",
-    link: "https://www.threads.com/@ry.universe_",
+    link: "https://www.threads.com/@once_ui",
     essential: true,
   },
   {
@@ -76,7 +76,7 @@ const home: Home = {
   },
   subline: (
     <>
-    I'm Roy Subagya Santoso, a Fullstack Developer <Text as="span" size="xl" weight="strong"> Freelance</Text>, where I craft intuitive <br /> user experiences. After hours, I build my own projects.
+    I'm Selene, a design engineer at <Text as="span" size="xl" weight="strong">ONCE UI</Text>, where I craft intuitive <br /> user experiences. After hours, I build my own projects.
 </>
   ),
 };

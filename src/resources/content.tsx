@@ -2,12 +2,12 @@ import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } fro
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
-  firstName: "Selene",
-  lastName: "Yu",
-  name: "Selene Yu",
-  role: "Design Engineer",
-  avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
+  firstName: "Roy Subagya",
+  lastName: "Santoso",
+  name: "Roy Subagya Santoso",
+  role: "Software Engineer",
+  avatar: "/images/avatar.png",
+  email: "Roysubagya01@gmail.com",
   location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
   languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
 };
@@ -25,25 +25,25 @@ const social: Social = [
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system",
+    link: "https://github.com/slandersh991",
     essential: true,
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
+    link: "https://www.linkedin.com/in/roy-subagya-santoso-b99728230/",
     essential: true,
   },
   {
     name: "Instagram",
     icon: "instagram",
-    link: "https://www.instagram.com/once_ui/",
+    link: "https://www.instagram.com/ry.universe_",
     essential: false,
   },
   {
     name: "Threads",
     icon: "threads",
-    link: "https://www.threads.com/@once_ui",
+    link: "https://www.threads.com/@ry.universe_",
     essential: true,
   },
   {
@@ -60,12 +60,12 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: "Building bridges between design and code",
+  headline: "Build a website for my portfolio",
   featured: {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">Once UI</strong>{" "}
+        <strong className="ml-4">Mintgyaa</strong>{""}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           Featured work
@@ -76,7 +76,7 @@ const home: Home = {
   },
   subline: (
     <>
-    I'm Selene, a design engineer at <Text as="span" size="xl" weight="strong">ONCE UI</Text>, where I craft intuitive <br /> user experiences. After hours, I build my own projects.
+    I'm Mintgyaa, a <Text as="span" size="xl" weight="strong">Software Engineer</Text>, based in Jakarta, Indonesia. <br /> This is my portfolio website , a place to show my work as a software engineer. <br /> 
 </>
   ),
 };
@@ -101,9 +101,10 @@ const about: About = {
     display: true,
     title: "Introduction",
     description: (
-      "Selene is a Jakarta-based design engineer with a passion for transforming complex challenges " +
-      "into simple, elegant design solutions. Her work spans digital interfaces, interactive " +
-      "experiences, and the convergence of design and technology."
+     "I'm Mintgyaa, a Software Engineer, based in Jakarta, Indonesia. This is my portfolio website , a place to show my work as a software engineer. "+
+     "I'm passionate about building innovative and user-friendly software. "+
+     "I'm always looking for new challenges and opportunities to learn and grow. "+
+     "I'm a team player and I enjoy collaborating with others to create something great."
     ),
   },
   work: {
@@ -217,7 +218,7 @@ const about: About = {
 const blog: Blog = {
   path: "/blog",
   label: "Blog",
-  title: "Writing about design and tech...",
+  title: "Writing about creativity and engineering...",
   description: `Read what ${person.name} has been up to recently`,
   // Create new blog posts by adding a new .mdx file to app/blog/posts
   // All posts will be listed on the /blog route
@@ -227,7 +228,7 @@ const work: Work = {
   path: "/work",
   label: "Work",
   title: `Projects – ${person.name}`,
-  description: `Design and dev projects by ${person.name}`,
+  description: `Created projects by ${person.name}`,
   // Create new project pages by adding a new .mdx file to app/blog/posts
   // All projects will be listed on the /home and /work routes
 };

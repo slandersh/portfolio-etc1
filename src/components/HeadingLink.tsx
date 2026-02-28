@@ -1,18 +1,28 @@
 "use client";
 
-import React, { JSX } from "react";
+import React from "react";
+import type { JSX } from "react";
 import { Heading, Flex, IconButton, useToast } from "@once-ui-system/core";
+import type { SpacingProps } from "@once-ui-system/core";
 
 import styles from "@/components/HeadingLink.module.scss";
 
-interface HeadingLinkProps {
+interface HeadingLinkProps extends SpacingProps {
   id: string;
   level: 1 | 2 | 3 | 4 | 5 | 6;
   children: React.ReactNode;
   style?: React.CSSProperties;
+  className?: string;
 }
 
-export const HeadingLink: React.FC<HeadingLinkProps> = ({ id, level, children, style }) => {
+export const HeadingLink: React.FC<HeadingLinkProps> = ({
+  id,
+  level,
+  children,
+  style,
+  className,
+  ...props
+}) => {
   const { addToast } = useToast();
 
   const copyURL = (id: string): void => {
@@ -47,9 +57,10 @@ export const HeadingLink: React.FC<HeadingLinkProps> = ({ id, level, children, s
 
   return (
     <Flex
+      {...props}
       style={style}
       onClick={() => copyURL(id)}
-      className={styles.control}
+      className={`${styles.control} ${className || ""}`}
       vertical="center"
       gap="4"
     >

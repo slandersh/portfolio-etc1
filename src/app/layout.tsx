@@ -16,6 +16,15 @@ import type { opacity, SpacingToken } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers } from "@/components";
 import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
 
+/**
+ * Menghasilkan metadata halaman secara otomatis untuk SEO.
+ *
+ * Metadata ini diterapkan ke semua halaman sebagai default (metatag global).
+ * Setiap halaman dapat meng-override metadata ini dengan mengekspor
+ * `generateMetadata()` atau `metadata` sendiri di file page.tsx-nya.
+ *
+ * @returns Objek metadata Next.js berisi title, description, og:image, dll.
+ */
 export async function generateMetadata() {
   return Meta.generate({
     title: home.title,
@@ -26,6 +35,26 @@ export async function generateMetadata() {
   });
 }
 
+/**
+ * Layout utama aplikasi yang membungkus semua halaman.
+ *
+ * Bertanggung jawab atas:
+ * 1. **Inisialisasi tema** — Script inline di `<head>` membaca preferensi tema
+ *    dari localStorage dan `prefers-color-scheme`, lalu menerapkan data-attribute
+ *    ke elemen `<html>` sebelum hydration (mencegah flash of unstyled content).
+ * 2. **Penerapan font** — Variabel CSS font (Geist) diterapkan ke root HTML
+ *    menggunakan class dari konfigurasi Next.js font loader.
+ * 3. **Background effects global** — Komponen `<Background>` menampilkan
+ *    efek visual (mask, gradient, dots, grid, lines) yang dikonfigurasi
+ *    di `once-ui.config.ts` → `effects`.
+ * 4. **Struktur halaman** — Header (navigasi), konten halaman (dibungkus RouteGuard),
+ *    dan Footer disusun dalam layout vertikal yang responsif.
+ *
+ * Cara mengubah background effects:
+ * - Edit objek `effects` di `src/resources/once-ui.config.ts`
+ *
+ * @param {ReactNode} children - Konten halaman yang akan dirender di dalam layout
+ */
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -47,7 +76,19 @@ export default async function RootLayout({
       <head>
         <script
           id="theme-init"
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+          /**
+           * Script inisialisasi tema dijalankan sebelum React hydration untuk mencegah
+           * "flash of unstyled content" (FOUC). Script ini:
+           * 1. Membaca konfigurasi style dari config yang sudah di-serialize
+           * 2. Menerapkan data-attribute ke <html> sebagai nilai default
+           * 3. Mengambil tema yang disimpan di localStorage (jika ada)
+           * 4. Menerapkan override style yang disimpan pengguna sebelumnya
+           *
+           * PERHATIAN: biome-ignore digunakan karena dangerouslySetInnerHTML
+           * dibutuhkan untuk script inisialisasi sisi klien ini — tidak ada
+           * alternatif yang aman tanpa risiko FOUC.
+           */
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: <Script inisialisasi tema perlu berjalan sebelum React hydration untuk mencegah FOUC>
           dangerouslySetInnerHTML={{
             __html: `
               (function() {

@@ -1,20 +1,48 @@
 "use client";
 
-import React from "react";
+import type React from "react";
 import type { JSX } from "react";
 import { Heading, Flex, IconButton, useToast } from "@once-ui-system/core";
 import type { SpacingProps } from "@once-ui-system/core";
 
 import styles from "@/components/HeadingLink.module.scss";
 
+/**
+ * Props untuk komponen HeadingLink.
+ */
 interface HeadingLinkProps extends SpacingProps {
+  /** ID unik elemen yang digunakan sebagai anchor URL (contoh: "work-experience") */
   id: string;
+  /** Level heading HTML, 1-6 (h1 hingga h6) */
   level: 1 | 2 | 3 | 4 | 5 | 6;
+  /** Konten teks heading */
   children: React.ReactNode;
+  /** Style CSS tambahan (opsional) */
   style?: React.CSSProperties;
+  /** Class CSS tambahan (opsional) */
   className?: string;
 }
 
+/**
+ * Komponen heading yang dapat diklik untuk menyalin URL anchor ke clipboard.
+ *
+ * Digunakan di semua heading di dalam konten MDX (blog/proyek) agar pengguna
+ * dapat membagikan link langsung ke bagian tertentu dari halaman.
+ *
+ * Cara kerja:
+ * - Setiap heading MDX dipetakan ke komponen ini oleh `createHeading()` di `mdx.tsx`
+ * - Klik heading → URL anchor di-generate (`origin + pathname + #id`) dan disalin
+ * - Toast notifikasi sukses/gagal muncul di sudut layar
+ * - Ikon link muncul saat hover (via CSS class `styles.visibility`)
+ *
+ * Pemetaan level ke varian tipografi:
+ * - h1 → `display-strong-xs`
+ * - h2 → `heading-strong-xl`
+ * - h3 → `heading-strong-l`
+ * - h4 → `heading-strong-m`
+ * - h5 → `heading-strong-s`
+ * - h6 → `heading-strong-xs`
+ */
 export const HeadingLink: React.FC<HeadingLinkProps> = ({
   id,
   level,

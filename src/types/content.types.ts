@@ -45,23 +45,13 @@ export type Newsletter = {
 /**
  * Social link configuration.
  */
-export type Social = Array<{
-  /** Name of the social platform */
+export interface Social {
   name: string;
-  /** Icon for the social platform
-   * The icons are a part of "src/resources/icons.ts" file.
-   * If you need a different icon, import it there and reference it everywhere else
-   */
   icon: IconName;
-  /**
-   * The link to the social platform
-   *
-   * The link is not validated by code, make sure it's correct
-   */
   link: string;
-  /** Whether this social link is essential and should be displayed on the about page */
+  community?: boolean;
   essential?: boolean;
-}>;
+}
 
 /**
  * Base interface for page configuration with common properties.
@@ -237,4 +227,112 @@ export interface Gallery extends BasePageConfig {
     /** Image orientation (horizontal/vertical) */
     orientation: string;
   }>;
+}
+
+/**
+ * Product category for the store.
+ */
+export type ProductCategory = {
+  /** Name of the category */
+  name: string;
+  /** Icon for the category */
+  icon?: string;
+};
+
+/**
+ * Product configuration for the store.
+ */
+export type Product = {
+  /** Title of the product */
+  title: string;
+  /** Description of the product */
+  description: string;
+  /** Price of the product (optional) */
+  price?: string;
+  /** Category of the product */
+  category: string;
+  /** Link to purchase or view the product */
+  link: string;
+  /** Image source path */
+  image?: string;
+  /** Optional tag for the product (e.g., 'New', 'Featured') */
+  tag?: string;
+  /** Optional badge for the product */
+  badge?: string;
+  /** Detailed information for the product modal */
+  details?: {
+    longDescription?: string;
+    features?: string[];
+    images?: string[];
+  };
+};
+
+/**
+ * Represents a donation supporter.
+ */
+export type Supporter = {
+  name: string;
+  amount: string;
+  message?: string;
+  date: string;
+};
+
+/**
+ * Represents a donation platform.
+ */
+export type DonationPlatform = {
+  name: string;
+  link: string;
+  icon?: string;
+  color?: string;
+};
+
+/**
+ * Represents a stream platform.
+ */
+export type StreamPlatform = {
+  name: string;
+  link: string;
+  icon?: string;
+  status?: "Live" | "Offline" | "Scheduled";
+};
+
+/**
+ * Represents a stream announcement or news.
+ */
+export type StreamNews = {
+  title: string;
+  date: string;
+  summary: string;
+  link?: string;
+};
+
+/**
+ * Stream page configuration.
+ */
+export interface Stream extends BasePageConfig {
+  platforms: StreamPlatform[];
+  news: StreamNews[];
+  featuredStream?: string; // e.g., Embed URL
+}
+
+/**
+ * Store page configuration.
+ * @description Configuration for the Store page, including metadata, navigation label, categories, and product list.
+ */
+export interface Store extends BasePageConfig {
+  /** List of product categories */
+  categories: string[];
+  /** List of products in the store */
+  products: Product[];
+  /** Recent supporters for donation section */
+  supporters?: Supporter[];
+  /** List of donation platforms */
+  donationPlatforms?: DonationPlatform[];
+  /** Link to live stream */
+  streamLink?: string;
+  /** Link to request product or service */
+  requestLink?: string;
+  /** WhatsApp Business number for automation */
+  whatsappNumber?: string;
 }

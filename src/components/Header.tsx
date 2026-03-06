@@ -5,13 +5,13 @@ import { useEffect, useState, type FC, type ReactNode } from "react";
 
 import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
-import { routes, display, person, about, blog, work, gallery } from "@/resources";
+import { routes, display, person, about, blog, work, gallery, store, stream } from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 
 type TimeDisplayProps = {
   timeZone: string;
-  locale?: string; // Optionally allow locale, defaulting to 'en-GB'
+  locale?: string; // Opsional: format locale untuk tampilan jam, default ke 'en-GB'
 };
 
 const TimeDisplay: FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
@@ -162,6 +162,44 @@ export const Header = () => {
                       prefixIcon="gallery"
                       href="/gallery"
                       selected={pathname.startsWith("/gallery")}
+                    />
+                  </Row>
+                </>
+              )}
+              {routes["/store"] && (
+                <>
+                  <Row s={{ hide: true }}>
+                    <ToggleButton
+                      prefixIcon="store"
+                      href="/store"
+                      label={store.label}
+                      selected={pathname.startsWith("/store")}
+                    />
+                  </Row>
+                  <Row hide s={{ hide: false }}>
+                    <ToggleButton
+                      prefixIcon="store"
+                      href="/store"
+                      selected={pathname.startsWith("/store")}
+                    />
+                  </Row>
+                </>
+              )}
+              {routes["/stream"] && (
+                <>
+                  <Row s={{ hide: true }}>
+                    <ToggleButton
+                      prefixIcon="mic"
+                      href="/stream"
+                      label="Stream"
+                      selected={pathname.startsWith("/stream")}
+                    />
+                  </Row>
+                  <Row hide s={{ hide: false }}>
+                    <ToggleButton
+                      prefixIcon="mic"
+                      href="/stream"
+                      selected={pathname.startsWith("/stream")}
                     />
                   </Row>
                 </>

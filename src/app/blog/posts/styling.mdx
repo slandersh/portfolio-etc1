@@ -1,83 +1,29 @@
 ---
-title: "Styling your portfolio"
-summary: "Magic Portfolio's styling is based on Once UI's customization through data-attributes."
-image: "/images/gallery/horizontal-3.jpg"
-publishedAt: "2025-04-21"
+title: "Penyesuaian Gaya dan Tema"
+summary: "Ubah tampilan visual portofolio Anda menggunakan sistem desain Once UI."
+publishedAt: "2025-04-28"
 tag: "Magic Portfolio"
 ---
 
-## Global style
+{/* 
+  @file styling.mdx
+  @description Panduan kustomisasi visual melalui konfigurasi style-system.
+  
+  Panduan Maintenance:
+  - Jelaskan kaitan antara kustomisasi brand color di Once UI dengan CSS variables.
+  - Dokumentasikan cara mengubah efek latar belakang (dots, mesh, grid) di layout.tsx.
+*/}
 
-Magic Portfolio's styling is based on Once UI's customization through data-attributes. You can generate a custom color palette for brand, accent and neutral colors on [Once UI](https://once-ui.com/customize) where you'll find instructions on how to apply it.
+## Tema dan Warna
 
-<CodeBlock
-    marginBottom="16"
-    codes={[
-  {
-    code:
-`theme:       'dark',         // dark | light
-neutral:     'gray',         // sand | gray | slate
-brand:       'blue',         // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
-accent:      'indigo',       // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
-solid:       'contrast',     // color | contrast
-solidStyle:  'flat',         // flat | plastic
-border:      'playful',      // rounded | playful | conservative
-surface:     'translucent',  // filled | translucent
-transition:  'all',          // all | micro | macro
-scaling:     '100',          // 90 | 95 | 100 | 105 | 110`, 
-    language: "tsx",
-    label: "src/app/resources/config.js"
-  }
-]} />
+Anda dapat mengubah palet warna brand secara instan di `src/resources/once-ui.config.ts`. Once UI menyediakan sistem token yang memungkinkan Anda menentukan warna latar belakang, teks, dan elemen interaktif dengan mudah.
 
-## Background effect
+## Kustomisasi Global
 
-There's a pre-configured background in `layout.tsx` that you can modify in the config file. Set graphic elements such as gradient, dots, lines, and grid and configure their appearance.
+Gaya dasar seperti radius border, gaya border (rounded/conservative), dan penskalaan (scaling) ditentukan dalam objek `style` di file konfigurasi.
 
-<CodeBlock
-    codeHeight={24}
-    marginBottom="16"
-    codes={[
-  {
-    code:
-`const effects = {
-    mask: {
-      cursor: false,
-      x: 50,
-      y: 0,
-      radius: 100
-    },
-    gradient: {
-      display: true,
-      x: 50,
-      y: -25,
-      width: 100,
-      height: 100,
-      tilt: 0,
-      colorStart: 'accent-background-strong',
-      colorEnd: 'static-transparent',
-      opacity: 50
-    },
-    dots: {
-      display: true,
-      size: 2,
-      color: 'brand-on-background-weak',
-      opacity: 20
-    },
-    lines: {
-      display: false,
-      color: 'neutral-alpha-weak',
-      opacity: 100
-    },
-    grid: {
-      display: false,
-      color: 'neutral-alpha-weak',
-      opacity: 100,
-      width: 'var(--static-space-32)',
-      height: 'var(--static-space-32)'
-    }
-}`, 
-    language: "tsx",
-    label: "src/app/resources/config.js"
-  }
-]} />
+<CodeBlock codes={[{ code: 'style: { border: "playful", transition: "all", ... }', language: 'tsx' }]} />
+
+## Efek Latar Belakang
+
+Anda dapat menyesuaikan grid, titik-titik (dots), atau garis-garis di latar belakang melalui objek `effects`. Aktifkan atau nonaktifkan elemen tersebut sesuai selera desain Anda.

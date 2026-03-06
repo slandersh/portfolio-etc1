@@ -20,6 +20,8 @@ import {
   PiGridFourDuotone,
   PiBookBookmarkDuotone,
   PiImageDuotone,
+  PiStorefrontDuotone,
+  PiShoppingCartDuotone,
 } from "react-icons/pi";
 
 import {
@@ -43,6 +45,8 @@ export const iconLibrary: Record<string, IconType> = {
   calendar: HiCalendarDays,
   home: PiHouseDuotone,
   gallery: PiImageDuotone,
+  store: PiStorefrontDuotone,
+  shoppingCart: PiShoppingCartDuotone,
   discord: FaDiscord,
   eye: HiOutlineEye,
   eyeOff: HiOutlineEyeSlash,

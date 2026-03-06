@@ -10,17 +10,43 @@ import {
   Text,
 } from "@once-ui-system/core";
 
+/**
+ * Props untuk komponen ProjectCard.
+ */
 interface ProjectCardProps {
+  /** URL halaman detail proyek (contoh: "/work/nama-proyek") */
   href: string;
+  /** Jika true, gambar pertama diberi prioritas loading tinggi (gunakan untuk kartu di atas fold) */
   priority?: boolean;
+  /** Daftar URL gambar yang ditampilkan dalam carousel */
   images: string[];
+  /** Judul proyek */
   title: string;
+  /** Konten MDX proyek — jika tidak kosong, tampilkan link "Read case study" */
   content: string;
+  /** Ringkasan atau deskripsi singkat proyek */
   description: string;
+  /** Daftar avatar anggota tim (diambil dari `team[].avatar` di frontmatter MDX) */
   avatars: { src: string }[];
+  /** URL external proyek — jika ada, tampilkan link "View project" */
   link: string;
 }
 
+/**
+ * Kartu proyek yang menampilkan carousel gambar, judul, deskripsi, dan link aksi.
+ *
+ * Digunakan di `Projects.tsx` untuk merender setiap proyek dari file MDX.
+ * Menampilkan dua jenis link:
+ * - "Read case study" → link ke halaman detail proyek (`href`)
+ * - "View project"   → link eksternal ke proyek langsung (`link`)
+ *
+ * Gambar diambil dari frontmatter `images` file MDX proyek.
+ * Avatar tim diambil dari frontmatter `team[].avatar`.
+ *
+ * Cara menambah proyek baru:
+ * - Buat file baru di `src/app/work/projects/nama-proyek.mdx`
+ * - Isi frontmatter dengan `images`, `team`, `link`, dll.
+ */
 export const ProjectCard: React.FC<ProjectCardProps> = ({
   href,
   images = [],

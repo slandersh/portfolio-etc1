@@ -1,91 +1,161 @@
-# Magic Portfolio
+# Magic Portfolio — Dokumentasi Proyek
 
-Magic Portfolio is a simple, clean, beginner-friendly portfolio template. It supports an MDX-based content system for projects and blog posts, an about / CV page and a gallery.
+Magic Portfolio adalah template portofolio yang sederhana, bersih, dan ramah untuk pemula. Template ini mendukung sistem konten berbasis MDX untuk proyek dan postingan blog, halaman tentang saya / CV, serta galeri foto.
 
-View the demo [here](https://demo.magic-portfolio.com).
+Lihat demo [di sini](https://demo.magic-portfolio.com).
 
 ![Magic Portfolio](public/images/og/home.jpg)
 
-## Getting started
+---
 
-**1. Clone the repository**
+## Memulai
+
+**1. Clone repository**
 ```
 git clone https://github.com/once-ui-system/magic-portfolio.git
 ```
 
-**2. Install dependencies**
+**2. Install dependensi**
 ```
 npm install
 ```
 
-**3. Run dev server**
+**3. Jalankan server pengembangan**
 ```
 npm run dev
 ```
 
-**4. Edit config**
+**4. Edit konfigurasi tampilan & tema**
 ```
-src/resources/once-ui.config.js
-```
-
-**5. Edit content**
-```
-src/resources/content.js
+src/resources/once-ui.config.ts
 ```
 
-**6. Create blog posts / projects**
+**5. Edit konten (profil, proyek, dll.)**
 ```
-Add a new .mdx file to src/app/blog/posts or src/app/work/projects
+src/resources/content.tsx
 ```
 
-Magic Portfolio was built with [Once UI](https://once-ui.com) for [Next.js](https://nextjs.org). It requires Node.js v18.17+.
+**6. Tambah postingan blog / proyek baru**
+```
+Buat file .mdx baru di src/app/blog/posts atau src/app/work/projects
+```
 
-## Documentation
+Magic Portfolio dibangun dengan [Once UI](https://once-ui.com) untuk [Next.js](https://nextjs.org). Memerlukan Node.js v18.17+.
 
-Docs available at: [docs.once-ui.com](https://docs.once-ui.com/docs/magic-portfolio/quick-start)
+---
 
-## Features
+## Dokumentasi
+
+Dokumentasi lengkap tersedia di: [docs.once-ui.com](https://docs.once-ui.com/docs/magic-portfolio/quick-start)
+
+---
+
+## Fitur
 
 ### Once UI
-- All tokens, components & features of [Once UI](https://once-ui.com)
+- Semua token, komponen & fitur dari [Once UI](https://once-ui.com)
 
 ### SEO
-- Automatic open-graph and X image generation with next/og
-- Automatic schema and metadata generation based on the content file
+- Pembuatan gambar open-graph dan X secara otomatis via `next/og`
+- Pembuatan schema dan metadata otomatis berdasarkan file konten
 
-### Design
-- Responsive layout optimized for all screen sizes
-- Timeless design without heavy animations and motion
-- Endless customization options through [data attributes](https://once-ui.com/docs/theming)
+### Desain
+- Tata letak responsif yang dioptimalkan untuk semua ukuran layar
+- Desain timeless tanpa animasi berlebihan
+- Opsi kustomisasi tak terbatas melalui [data attributes](https://once-ui.com/docs/theming)
 
-### Content
-- Render sections conditionally based on the content file
-- Enable or disable pages for blog, work, gallery and about / CV
-- Generate and display social links automatically
-- Set up password protection for URLs
+### Konten
+- Render bagian secara kondisional berdasarkan file konten
+- Aktifkan atau nonaktifkan halaman blog, work, gallery, dan about / CV
+- Buat dan tampilkan tautan sosial secara otomatis
+- Konfigurasi proteksi password untuk URL tertentu
 
-### Localization
-- A localized, earlier version of Magic Portfolio is available with the next-intl library
-- To use localization, switch to the 'i18n' branch
+### Lokalisasi
+- Versi Magic Portfolio yang sudah dilokalisasi tersedia dengan library `next-intl`
+- Untuk menggunakan lokalisasi, pindah ke branch `i18n`
 
-## Creators
+---
+
+## Panduan Maintenance & Pengembangan
+
+### Struktur Direktori Utama
+
+```
+magic-portfolio/
+├── src/
+│   ├── app/              # Halaman-halaman Next.js (App Router)
+│   │   ├── about/        # Halaman About / CV
+│   │   ├── blog/         # Halaman Blog + folder posts/ (file .mdx)
+│   │   ├── gallery/      # Halaman Galeri Foto
+│   │   ├── store/        # Halaman Store (produk, donasi, request)
+│   │   ├── stream/       # Halaman Stream (live streaming)
+│   │   ├── work/         # Halaman Work + folder projects/ (file .mdx)
+│   │   └── api/          # API Routes (autentikasi, OG image, RSS)
+│   ├── components/       # Komponen React yang dapat digunakan ulang
+│   │   ├── store/        # Komponen khusus halaman Store
+│   │   └── ...
+│   ├── resources/        # Konfigurasi dan konten utama
+│   │   ├── content.tsx       # ← EDIT INI untuk mengubah profil & konten
+│   │   └── once-ui.config.ts # ← EDIT INI untuk mengubah tema & konfigurasi
+│   ├── types/            # Definisi tipe TypeScript
+│   └── utils/            # Fungsi utilitas (format tanggal, mata uang, dll.)
+└── public/               # Aset statis (gambar, file PDF, dll.)
+```
+
+### Cara Menambah Konten Baru
+
+**Menambah Postingan Blog:**
+1. Buat file baru di `src/app/blog/posts/nama-postingan.mdx`
+2. Isi frontmatter YAML di bagian atas file:
+   ```yaml
+   ---
+   title: "Judul Postingan"
+   publishedAt: "2026-03-04"
+   summary: "Ringkasan singkat untuk SEO"
+   ---
+   ```
+3. Tulis konten MDX di bawah frontmatter
+
+**Menambah Proyek:**
+1. Buat file baru di `src/app/work/projects/nama-proyek.mdx`
+2. Isi frontmatter dengan informasi proyek (title, publishedAt, summary, images, team)
+
+**Mengubah Profil:**
+- Edit objek `person` di `src/resources/content.tsx`
+
+**Mengubah Produk Store:**
+- Edit array `products` dalam objek `store` di `src/resources/content.tsx`
+
+### Mengubah Mata Uang
+- Kurs tukar diatur di `src/utils/currency.ts` pada konstanta `EXCHANGE_RATE`
+- Deteksi otomatis mata uang berdasarkan zona waktu diatur di fungsi `detectCurrency`
+
+---
+
+## Pembuat
 
 Lorant One: [Threads](https://www.threads.net/@lorant.one) / [LinkedIn](https://www.linkedin.com/in/lorant-one/)
 
-## Get involved
+---
 
-- Join the Design Engineers Club on [Discord](https://discord.com/invite/5EyAQ4eNdS) and share your project with us!
-- Deployed your docs? Share it on the [Once UI Hub](https://once-ui.com/hub) too! We feature our favorite apps on our landing page.
+## Bergabung dengan Komunitas
 
-## License
+- Bergabunglah dengan Design Engineers Club di [Discord](https://discord.com/invite/5EyAQ4eNdS) dan bagikan proyekmu!
+- Sudah deploy? Bagikan juga di [Once UI Hub](https://once-ui.com/hub)! Kami menampilkan aplikasi favorit kami di halaman utama.
 
-Distributed under the CC BY-NC 4.0 License.
-- Attribution is required.
-- Commercial usage is not allowed.
-- You can extend the license to [Dopler CC](https://dopler.app/license) by purchasing a [Once UI Pro](https://once-ui.com/pricing) license.
+---
 
-See `LICENSE.txt` for more information.
+## Lisensi
 
-## Deploy with Vercel
+Didistribusikan di bawah Lisensi CC BY-NC 4.0.
+- Atribusi wajib diberikan.
+- Penggunaan komersial tidak diizinkan.
+- Lisensi dapat diperluas ke [Dopler CC](https://dopler.app/license) dengan membeli lisensi [Once UI Pro](https://once-ui.com/pricing).
+
+Lihat `LICENSE.txt` untuk informasi lebih lanjut.
+
+---
+
+## Deploy dengan Vercel
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&project-name=portfolio&repository-name=portfolio&redirect-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&demo-title=Magic%20Portfolio&demo-description=Showcase%20your%20designers%20or%20developer%20portfolio&demo-url=https%3A%2F%2Fdemo.magic-portfolio.com&demo-image=%2F%2Fraw.githubusercontent.com%2Fonce-ui-system%2Fmagic-portfolio%2Fmain%2Fpublic%2Fimages%2Fog%2Fhome.jpg)

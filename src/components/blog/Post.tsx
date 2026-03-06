@@ -4,12 +4,34 @@ import { Card, Column, Media, Row, Avatar, Text } from "@once-ui-system/core";
 import { formatDate } from "@/utils/formatDate";
 import { person } from "@/resources";
 
+/**
+ * Props untuk komponen Post.
+ */
 interface PostProps {
+  /** Objek postingan blog yang berisi metadata dan slug (dari file MDX) */
+  // biome-ignore lint/suspicious/noExplicitAny: <Struktur metadata MDX bersifat dinamis dan fleksibel tergantung frontmatter>
   post: any;
+  /** Jika true, tampilkan gambar thumbnail dari metadata postingan */
   thumbnail: boolean;
+  /** Arah layout kartu: "row" (horizontal) atau "column" (vertikal) */
   direction?: "row" | "column";
 }
 
+/**
+ * Komponen kartu postingan blog tunggal.
+ *
+ * Menampilkan informasi postingan dalam format kartu yang dapat diklik.
+ * Digunakan oleh `Posts.tsx` di halaman /blog dan juga di halaman beranda (preview blog).
+ *
+ * Konten yang ditampilkan:
+ * - Thumbnail gambar (opsional, dikontrol oleh prop `thumbnail`)
+ * - Nama dan avatar penulis (dari `person` di `content.tsx`)
+ * - Tanggal publikasi (diformat oleh `formatDate`)
+ * - Judul postingan
+ * - Tag postingan (opsional, dari frontmatter `tag`)
+ *
+ * @param {PostProps} props - Props komponen
+ */
 export default function Post({ post, thumbnail, direction }: PostProps) {
   return (
     <Card
@@ -33,7 +55,7 @@ export default function Post({ post, thumbnail, direction }: PostProps) {
           cursor="interactive"
           radius="l"
           src={post.metadata.image}
-          alt={"Thumbnail of " + post.metadata.title}
+          alt={`Thumbnail of ${post.metadata.title}`}
           aspectRatio="16 / 9"
         />
       )}

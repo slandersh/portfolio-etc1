@@ -1,5 +1,7 @@
-import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Store, Work, Stream } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
+import { store } from "./store";
+import { stream } from "./stream";
 
 const person: Person = {
   firstName: "Roy Subagya",
@@ -8,8 +10,8 @@ const person: Person = {
   role: "Software Engineer",
   avatar: "/images/Avatar.png",
   email: "Roysubagya01@gmail.com",
-  location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  location: "Asia/Jakarta", // Format zona waktu IANA, contoh: 'Asia/Jakarta' atau 'Europe/Vienna'
+  languages: ["English", "Bahasa"], // Opsional: kosongkan array jika tidak ingin menampilkan bahasa
 };
 
 const newsletter: Newsletter = {
@@ -18,32 +20,31 @@ const newsletter: Newsletter = {
   description: "My weekly newsletter about creativity and engineering",
 };
 
-const social: Social = [
-  // Links are automatically displayed.
-  // Import new icons in /once-ui/icons.ts
-  // Set essentials: true for links you want to show on the about page
+const social: Social[] = [
+  // Tautan sosial akan ditampilkan secara otomatis di header dan footer.
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/slandersh991",
+    link: "https://github.com/roysubagya",
     essential: true,
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/in/roy-subagya-santoso-b99728230/",
+    link: "https://www.linkedin.com/in/roy-subagya-santoso/",
     essential: true,
   },
   {
     name: "Instagram",
     icon: "instagram",
-    link: "https://www.instagram.com/ry.universe_",
-    essential: false,
+    link: "https://www.instagram.com/ry.universe_/",
+    essential: true,
   },
   {
-    name: "Threads",
-    icon: "threads",
-    link: "https://www.threads.com/@ry.universe_",
+    name: "Discord",
+    icon: "discord",
+    link: "https://discord.com/invite/649fHwz6v2",
+    community: true,
     essential: true,
   },
   {
@@ -108,7 +109,7 @@ const about: About = {
     ),
   },
   work: {
-    display: true, // set to false to hide this section
+    display: true, // Ubah ke false untuk menyembunyikan bagian ini
     title: "Work Experience",
     experiences: [
       {
@@ -120,7 +121,7 @@ const about: About = {
           "Spearheaded the integration of AI tools into design workflows, enabling designers to iterate 50% faster.",
         ],
         images: [
-          // optional: leave the array empty if you don't want to display images
+          // Opsional: kosongkan array jika tidak ingin menampilkan gambar
           {
             src: "/images/projects/project-01/cover-01.jpg",
             alt: "Once UI Project",
@@ -142,7 +143,7 @@ const about: About = {
     ],
   },
   studies: {
-    display: true, // set to false to hide this section
+    display: true, // Ubah ke false untuk menyembunyikan bagian ini
     title: "Studies",
     institutions: [
       {
@@ -156,7 +157,7 @@ const about: About = {
     ],
   },
   technical: {
-    display: true, // set to false to hide this section
+    display: true, // Ubah ke false untuk menyembunyikan bagian ini
     title: "Technical skills",
     skills: [
       {
@@ -168,7 +169,7 @@ const about: About = {
             icon: "figma",
           },
         ],
-        // optional: leave the array empty if you don't want to display images
+        // Opsional: kosongkan array jika tidak ingin menampilkan gambar
         images: [
           {
             src: "/images/projects/project-01/cover-02.jpg",
@@ -201,7 +202,7 @@ const about: About = {
             icon: "supabase",
           },
         ],
-        // optional: leave the array empty if you don't want to display images
+        // Opsional: kosongkan array jika tidak ingin menampilkan gambar
         images: [
           {
             src: "/images/projects/project-01/cover-04.jpg",
@@ -220,8 +221,8 @@ const blog: Blog = {
   label: "Blog",
   title: "Writing about creativity and engineering...",
   description: `Read what ${person.name} has been up to recently`,
-  // Create new blog posts by adding a new .mdx file to app/blog/posts
-  // All posts will be listed on the /blog route
+  // Buat postingan blog baru dengan menambahkan file .mdx baru ke app/blog/posts
+  // Semua postingan akan tampil di rute /blog
 };
 
 const work: Work = {
@@ -229,17 +230,18 @@ const work: Work = {
   label: "Work",
   title: `Projects – ${person.name}`,
   description: `Created projects by ${person.name}`,
-  // Create new project pages by adding a new .mdx file to app/blog/posts
-  // All projects will be listed on the /home and /work routes
+  // Buat halaman proyek baru dengan menambahkan file .mdx baru ke app/work/projects
+  // Semua proyek akan tampil di rute /home dan /work
 };
+
+// Data stream sekarang dikelola di src/resources/stream.ts
 
 const gallery: Gallery = {
   path: "/gallery",
   label: "Gallery",
   title: `Photo gallery – ${person.name}`,
   description: `A photo collection by ${person.name}`,
-  // Images by https://lorant.one
-  // These are placeholder images, replace with your own
+  // Gambar-gambar berikut adalah placeholder, ganti dengan foto Anda sendiri
   images: [
     {
       src: "/images/gallery/horizontal-1.jpg",
@@ -284,4 +286,7 @@ const gallery: Gallery = {
   ],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+// Data store sekarang dikelola di src/resources/store.ts
+
+// Ekspor semua konten
+export { person, social, newsletter, home, about, blog, work, gallery, store, stream };

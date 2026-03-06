@@ -1,7 +1,7 @@
 ---
-title: "Automating Design Handovers with a Figma to Code Pipeline"
+title: "Otomatisasi Desain Handoff dengan Figma to Code Pipeline"
 publishedAt: "2024-04-01"
-summary: "Explore the enduring debate between using spaces and tabs for code indentation, and why this choice matters more than you might think."
+summary: "Pelajari bagaimana membangun pipeline yang mengubah desain Figma langsung menjadi kode produksi yang bersih."
 images:
   - "/images/projects/project-01/cover-02.jpg"
   - "/images/projects/project-01/image-03.jpg"
@@ -13,32 +13,40 @@ team:
 link: "https://once-ui.com/"
 ---
 
-## Overview
+{/* 
+  @file automate-design-handovers-with-a-figma-to-code-pipeline.mdx
+  @description Studi kasus tentang otomatisasi alur kerja desain ke kode.
+  
+  Panduan Maintenance:
+  - Sertakan tautan yang relevan ke plugin Figma jika tersedia.
+  - Dokumentasikan metrik keberhasilan (misalnya penghematan waktu 40%).
+  - Pastikan urutan gambar di frontmatter sudah tepat untuk carousel.
+*/}
 
-In this project, I focused on automating the often tedious design handover process. The goal was to create a pipeline that converts Figma designs directly into clean, production-ready code. By integrating design tokens, component libraries, and automated workflows, this solution significantly reduced the time spent on translating design assets into code, while maintaining design consistency across the product.
+## Gambaran Umum
 
-## Key Features
+Dalam proyek ini, saya fokus pada otomatisasi proses handover desain yang melelahkan. Tujuannya adalah membangun pipeline yang mengubah desain Figma secara langsung menjadi kode yang bersih dan siap produksi. Melalui integrasi desain token, pustaka komponen, dan alur kerja otomatis, solusi ini berhasil mengurangi waktu penerjemahan desain ke kode serta menjaga konsistensi desain dalam produk.
 
-- **Figma Plugin Integration**: Developed a custom Figma plugin that extracts design tokens such as colors, typography, and spacing values, and exports them in a format compatible with our codebase.
-- **Code Generation**: Integrated an automated process that translates Figma components into React code using a combination of design tokens and pre-built component templates. This allowed developers to focus more on logic and less on repetitive UI coding.
-- **Continuous Sync**: Established a CI/CD pipeline that continuously synchronizes design changes from Figma to the codebase, ensuring design updates are reflected instantly without manual intervention.
-- **Scalable Design System**: Leveraged a design system that remains the single source of truth for both designers and developers, making it easy to maintain consistency even as the product evolves.
+## Fitur Utama
 
-## Technologies Used
+- **Integrasi Plugin Figma**: Membangun plugin Figma khusus untuk mengekstrak desain token (warna, tipografi, jarak) ke format yang kompatibel dengan basis kode.
+- **Generasi Kode**: Proses otomatisasi menggunakan token desain dan template komponen bawaan untuk menghasilkan kode React yang optimal.
+- **Sinkronisasi Berkelanjutan**: Pipeline CI/CD menggunakan GitHub Actions untuk menyelaraskan perubahan desain secara otomatis.
+- **Sistem Desain Terukur**: Menjaga sumber kebenaran tunggal (Single Source of Truth) bagi desainer dan pengembang.
 
-- **Figma API**: For extracting design tokens and component data directly from the Figma designs.
-- **React and Next.js**: For building the front-end codebase with clean, reusable components.
-- **Styled-Components**: For managing styles dynamically using design tokens.
-- **GitHub Actions**: For automating the pipeline and syncing design changes to the repository.
+## Teknologi Utama
 
-## Challenges and Learnings
+- **Figma API**: Ekstraksi data desain langsung dari Figma.
+- **React & Next.js**: Pengembangan UI berbasis komponen berkualitas tinggi.
+- **Styled-Components**: Manajemen gaya yang dinamis berdasarkan desain token.
+- **GitHub Actions**: Otomatisasi sinkronisasi dan pipeline pengembangan.
 
-One of the biggest challenges was ensuring that the generated code was clean and maintainable. This involved setting up intelligent mapping between Figma components and React code structures, as well as managing edge cases like responsive design and conditional rendering. Additionally, the continuous synchronization required a robust error-handling system to prevent conflicts during development.
+## Tantangan dan Pembelajaran
 
-## Outcome
+Tantangan terbesar adalah memastikan kode yang dihasilkan tetap bersih dan mudah dikelola (clean code). Solusinya adalah pemetaan yang cerdas antara komponen Figma dan struktur kode React, serta penanganan kasus khusus untuk desain responsif. Sinkronisasi berkelanjutan juga memerlukan sistem penanganan error yang kuat untuk menghindari konflik selama pengembangan.
 
-The automated Figma to code pipeline has streamlined the handoff process, cutting down design-to-development time by 40%. Designers now have more confidence that their designs will be accurately translated into code, and developers can focus on more complex logic and feature development. This project has proven the value of automation in bridging the gap between design and development.
+## Hasil Akhir
 
+Pipeline otomatisasi desain ke kode ini telah memangkas waktu handover sebesar 40%. Desainer kini lebih percaya diri karena desain akan diterjemahkan secara akurat, sementara pengembang dapat lebih fokus pada logika fitur yang kompleks.
 ---
-
-This project demonstrates your ability to leverage automation and streamline workflows, which is highly relevant for design engineering portfolios focused on efficiency and innovation.
+Proyek ini menunjukkan kemampuan Anda dalam memanfaatkan otomatisasi dan mengoptimalkan alur kerja, sangat relevan untuk portofolio yang menekankan efisiensi dan inovasi.

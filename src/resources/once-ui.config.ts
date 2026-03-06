@@ -13,7 +13,7 @@ import type {
 } from "@/types";
 import { home } from "./content";
 
-// IMPORTANT: Replace with your own domain address - it's used for SEO in meta tags and schema
+// PENTING: Ganti dengan domain Anda sendiri — digunakan untuk SEO di meta tag dan schema JSON-LD
 const baseURL: string = "https://itsmintgyaa.my.id/";
 
 const routes: RoutesConfig = {
@@ -22,6 +22,8 @@ const routes: RoutesConfig = {
   "/work": true,
   "/blog": true,
   "/gallery": true,
+  "/store": true,
+  "/stream": true,
 };
 
 const display: DisplayConfig = {
@@ -30,13 +32,14 @@ const display: DisplayConfig = {
   themeSwitcher: true,
 };
 
-// Enable password protection on selected routes
-// Set password in the .env file, refer to .env.example
+// Aktifkan proteksi password pada rute tertentu
+// Set password di file .env (lihat .env.example untuk format yang benar)
 const protectedRoutes: ProtectedRoutesConfig = {
   "/work/automate-design-handovers-with-a-figma-to-code-pipeline": true,
 };
 
-// Import and set font for each variant
+// Import dan konfigurasi font untuk setiap varian teks
+// Menggunakan font Geist dari Google Fonts untuk tampilan modern dan profesional
 import { Geist } from "next/font/google";
 import { Geist_Mono } from "next/font/google";
 
@@ -71,24 +74,25 @@ const fonts: FontsConfig = {
   code: code,
 };
 
-// default customization applied to the HTML in the main layout.tsx
+// Kustomisasi default yang diterapkan ke HTML di layout utama (layout.tsx)
+// Pilihan nilai tersedia sebagai komentar di setiap baris
 const style: StyleConfig = {
   theme: "system",  // dark | light | system
   neutral: "gray", // sand | gray | slate | custom
-  brand: "cyan", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan | custom
-  accent: "red", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan | custom
-  solid: "contrast", // color | contrast
-  solidStyle: "flat", // flat | plastic
-  border: "playful", // rounded | playful | conservative
-  surface: "translucent", // filled | translucent
-  transition: "all", // all | micro | macro
-  scaling: "100", // 90 | 95 | 100 | 105 | 110
+  brand: "cyan",   // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan | custom
+  accent: "red",   // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan | custom
+  solid: "contrast",     // color | contrast
+  solidStyle: "flat",    // flat | plastic
+  border: "playful",     // rounded | playful | conservative
+  surface: "translucent",// filled | translucent
+  transition: "all",     // all | micro | macro
+  scaling: "100",        // 90 | 95 | 100 | 105 | 110
 };
 
 const dataStyle: DataStyleConfig = {
   variant: "gradient", // flat | gradient | outline
   mode: "categorical", // categorical | divergent | sequential
-  height: 24, // default chart height
+  height: 24, // tinggi default grafik dalam rem
   axis: {
     stroke: "var(--neutral-alpha-weak)",
   },
@@ -184,7 +188,7 @@ const mailchimp: MailchimpConfig = {
   },
 };
 
-// default schema data
+// Data schema default untuk SEO dan rich snippets
 const schema: SchemaConfig = {
   logo: "/images/Avatar.png",
   type: "Person",
@@ -193,14 +197,14 @@ const schema: SchemaConfig = {
   email: "roysubagya01@gmail.com",
 };
 
-// social links
+// Daftar tautan media sosial untuk schema JSON-LD (sameAs)
 const sameAs: SameAsConfig = {
   threads: "https://www.threads.com/@ry.universe_",
   linkedin: "https://www.linkedin.com/roy-subagya-santoso/",
   discord: "https://discord.com/invite/649fHwz6v2",
 };
 
-// social sharing configuration for blog posts
+// Konfigurasi tombol berbagi sosial untuk postingan blog
 const socialSharing: SocialSharingConfig = {
   display: true,
   platforms: {

@@ -1,70 +1,60 @@
 ---
-title: "Updating the content of Magic Portfolio"
-summary: "Personalize the portfolio template with your own content."
+title: "Memperbarui Konten Magic Portfolio"
+summary: "Personalisasi template portofolio dengan konten Anda sendiri."
 publishedAt: "2025-04-18"
 tag: "Magic Portfolio"
 ---
 
+{/* 
+  @file content.mdx
+  @description Panduan lengkap untuk mempersonalisasi file resources/content.tsx.
+  
+  Panduan Maintenance:
+  - Dokumentasikan semua objek utama: person, social, home, about, store, stream.
+  - Berikan contoh kode untuk setiap bagian agar mudah disalin.
+  - Ingatkan developer untuk mengimpor komponen kustom jika digunakan dalam konten.
+*/}
+
 ## Avatar
 
-Replace the `public/images/avatar.jpg` file with your own avatar image. It is used on the `/about` page as well as on the dynamically generated `open-graph` images.
+Ganti file `public/images/avatar.jpg` dengan gambar avatar Anda sendiri. Gambar ini digunakan di halaman `/about` dan juga pada gambar `open-graph` yang di-generate secara dinamis.
 
 ## Favicon
 
-Replace the `src/app/favicon.ico` file with your own favicon.
+Ganti file `src/app/favicon.ico` dengan favicon Anda sendiri.
 
-## Content
+## Konten Utama
 
-Replace the content in the `resources/content.js` file with your own content. You can use custom components in most cases, since the props are usually declared as `ReactNode` instead of `string`, but it's important that you need to import them in the file.
+Sebagian besar data dipusatkan di `src/resources/content.tsx`. Namun, untuk konten besar seperti **Store** dan **Stream**, datanya kini dipisahkan ke file masing-masing untuk kemudahan pengelolaan:
+- `src/resources/store.ts` (Produk, Jasa, Donasi)
+- `src/resources/stream.ts` (Link stream, Berita stream)
 
-<CodeBlock
-    marginBottom="16"
-    highlight="1-2"
-    codes={[
-  {
-    code:
-`import { InlineCode } from "@once-ui-system/core";
-import Link from "next/link";
+### Detail Pribadi
 
-const person = {
-  ...
-};`,
-    language: "tsx",
-    label: "src/app/resources/content.js"
-  }
-]} />
-
-The imports above would let us use `InlineCode` and `Link` components in the content file.
-
-### Personal details
-
-Your personal details are used across the whole app to render personalized headings, labels and images. Languages are displayed on the `/about` page, and location and time in the header.
+Detail pribadi Anda digunakan di seluruh aplikasi untuk merender heading, label, dan gambar yang dipersonalisasi.
 
 <CodeBlock
     marginBottom="16"
-    highlight="2-3,7-10"
     codes={[
   {
     code:
 `const person = {
-    firstName: "Selene",
-    lastName: "Yu",
-    get name() {
-      return "...";
-    },
-    role: "Design Engineer",
+    firstName: "Roy",
+    lastName: "Subagya",
+    name: "Roy Subagya Santoso",
+    role: "Software Engineer",
     avatar: "/images/Avatar.png",
-    location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-    languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+    location: "Asia/Jakarta",
+    languages: ["English", "Bahama"],
 };`,
     language: "tsx",
-    label: "src/app/resources/content.js"
+    label: "src/resources/content.tsx"
   }
 ]} />
 
-### Social links
+### Link Sosial
 
-Social links are rendered on the `/about` page and in the footer based on the array configured in the `social` object. You can set custom icons to each, but don't forget to import them in `src/once-ui/icons.ts`. Read the Once UI documentation](https://once-ui.com/docs/icons) for more information.
+Link sosial dirender di halaman `/about` dan di footer berdasarkan array yang dikonfigurasi di objek `social`.
 
 <CodeBlock
     marginBottom="16"
@@ -75,22 +65,22 @@ Social links are rendered on the `/about` page and in the footer based on the ar
     {
       name: "GitHub",
       icon: "github",
-      link: "https://github.com/once-ui-system/nextjs-starter",
+      link: "https://github.com/roysubagya",
     },
     {
       name: "Email",
       icon: "email",
-      link: "mailto:lorant@once-ui.com",
+      link: "mailto:Roysubagya01@gmail.com",
     },
 ];`,
     language: "tsx",
-    label: "src/app/resources/content.js"
+    label: "src/resources/content.tsx"
   }
 ]} />
 
-### Pages
+### Halaman Beranda (Home)
 
-Each page have it's own object that manages the personalized content, such as headings, subheadings, images and dynamic data.
+Objek `home` mengelola konten yang dipersonalisasi untuk halaman utama, termasuk judul SEO dan deskripsi.
 
 <CodeBlock
     marginBottom="16"
@@ -99,19 +89,11 @@ Each page have it's own object that manages the personalized content, such as he
     code:
 `const home = {
     label: "Home",
-    title: "Selene Yu's Portfolio",
-    description: "Portfolio website showcasing my work as a Design Engineer",
-    headline: <>Design engineer and builder</>,
-    subline: (
-      <>
-        I'm Selene, a design engineer at <InlineCode>FLY</InlineCode>, where I craft intuitive
-        <br /> user experiences. After hours, I build my own projects.
-      </>
-    ),
+    title: "Portofolio Roy",
+    description: "Website portofolio yang menampilkan karya saya sebagai Software Engineer",
+    headline: <>Membangun solusi digital inovatif</>,
 };`,
     language: "tsx",
-    label: "src/app/resources/content.js"
+    label: "src/resources/content.tsx"
   }
 ]} />
-
-The `label` property is used in the header navigation. The `title` property is used for the page title and the `description` property is used for the page description. They are also used in meta- and open graph tags.

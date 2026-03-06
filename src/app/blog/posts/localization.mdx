@@ -1,8 +1,27 @@
 ---
-title: "Localized version of Magic Portfolio"
-summary: "Magic Portfolio was localized by François Hernandez."
-publishedAt: "2025-04-15"
+title: "Lokalisasi dan Bahasa"
+summary: "Cara menyesuaikan bahasa dan format regional di Magic Portfolio."
+publishedAt: "2025-04-20"
 tag: "Magic Portfolio"
 ---
 
-In the latest version of Magic Portfolio, localization is no longer supported. However, the localized version created by [François Hernandez](https://github.com/francoishernandez) is still available as a [separate branch](https://github.com/once-ui-system/magic-portfolio/tree/localization-(Once-UI-0.4.2)). This branch will not receive further updates.
+{/* 
+  @file localization.mdx
+  @description Petunjuk untuk mengatur bahasa dan lokalisasi aplikasi.
+  
+  Panduan Maintenance:
+  - Ingatkan untuk selalu menggunakan format zona waktu IANA di person.location.
+  - Dokumentasikan cara mengganti bahasa pada komponen TimeDisplay di Header.
+*/}
+
+## Bahasa
+
+Magic Portfolio mendukung multibahasa melalui konfigurasi di `src/resources/content.tsx`. Anda dapat mencantumkan bahasa yang Anda kuasai di objek `person`:
+
+<CodeBlock codes={[{ code: 'languages: ["English", "Bahama"]', language: 'tsx' }]} />
+
+## Zona Waktu
+
+Aplikasi menampilkan waktu lokal Anda di header. Pastikan Anda menggunakan pengenal zona waktu IANA yang valid (misalnya `Asia/Jakarta`) agar tampilan waktu akurat.
+
+<CodeBlock codes={[{ code: 'location: "Asia/Jakarta"', language: 'tsx' }]} />

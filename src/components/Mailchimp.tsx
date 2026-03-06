@@ -1,10 +1,24 @@
 "use client";
 
-import { mailchimp, newsletter } from "@/resources";
-import { Button, Heading, Input, Text, Background, Column, Row } from "@once-ui-system/core";
-import { opacity, SpacingToken } from "@once-ui-system/core";
+import { mailchimp, newsletter, social } from "@/resources";
+import { Button, Heading, Input, Text, Background, Column, Row, IconButton } from "@once-ui-system/core";
+import type { opacity, SpacingToken } from "@once-ui-system/core";
 import { useState } from "react";
+import type { Social } from "@/types";
 
+/**
+ * Membungkus sebuah fungsi dengan penundaan eksekusi (debounce).
+ * Fungsi yang dibungkus hanya akan dipanggil setelah tidak ada pemanggilan baru
+ * selama `delay` milidetik.
+ *
+ * Digunakan untuk mencegah validasi email dipicu terlalu sering saat pengguna mengetik.
+ *
+ * @template T - Tipe fungsi yang akan di-debounce
+ * @param {T} func - Fungsi yang akan di-debounce
+ * @param {number} delay - Waktu tunggu dalam milidetik sebelum fungsi dieksekusi
+ * @returns {T} Versi debounced dari fungsi yang diberikan
+ */
+// biome-ignore lint/suspicious/noExplicitAny: <Fungsi debounce generik perlu menerima semua tipe fungsi>
 function debounce<T extends (...args: any[]) => void>(func: T, delay: number): T {
   let timeout: ReturnType<typeof setTimeout>;
   return ((...args: Parameters<T>) => {
@@ -105,11 +119,13 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
         }}
       />
       <Column maxWidth="xs" horizontal="center">
-        <Heading marginBottom="s" variant="display-strong-xs">
+        <Heading marginBottom="s" variant="display-strong-xs" align="center">
           {newsletter.title}
         </Heading>
-        <Text wrap="balance" marginBottom="l" variant="body-default-l" onBackground="neutral-weak">
+        <Text wrap="balance" marginBottom="l" variant="body-default-l" onBackground="neutral-weak" align="center">
           {newsletter.description}
+          <br />
+          Subscribe to get latest <strong>Blog</strong> and <strong>News</strong> updates.
         </Text>
       </Column>
       <form
@@ -117,6 +133,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
           width: "100%",
           display: "flex",
           justifyContent: "center",
+          marginBottom: "var(--responsive-spacing-m)",
         }}
         action={mailchimp.action}
         method="post"
@@ -158,8 +175,8 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
             />
           </div>
           <div id="mce-responses" className="clearfalse">
-            <div className="response" id="mce-error-response" style={{ display: "none" }}></div>
-            <div className="response" id="mce-success-response" style={{ display: "none" }}></div>
+            <div className="response" id="mce-error-response" style={{ display: "none" }} />
+            <div className="response" id="mce-success-response" style={{ display: "none" }} />
           </div>
           <div aria-hidden="true" style={{ position: "absolute", left: "-5000px" }}>
             <input
@@ -179,6 +196,29 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
           </div>
         </Row>
       </form>
+
+      <Column fillWidth horizontal="center" gap="16" marginTop="m">
+        <Text variant="label-default-s" onBackground="neutral-weak">
+          Or Join our Community
+        </Text>
+        <Row gap="12" wrap horizontal="center">
+          {social.map(
+            (item: Social) =>
+              item.link &&
+              item.community && (
+                <Button
+                  key={item.name}
+                  href={item.link}
+                  variant="secondary"
+                  size="s"
+                  prefixIcon={item.icon}
+                >
+                  Join {item.name}
+                </Button>
+              ),
+          )}
+        </Row>
+      </Column>
     </Column>
   );
 };

@@ -16,6 +16,14 @@ import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
 
+/**
+ * Menghasilkan metadata halaman beranda untuk SEO.
+ *
+ * Metadata ini di-override dari layout utama dengan data spesifik halaman home.
+ * Konfigurasi bersumber dari objek `home` di `src/resources/content.tsx`.
+ *
+ * @returns Objek metadata Next.js berisi title, description, og:image
+ */
 export async function generateMetadata() {
   return Meta.generate({
     title: home.title,
@@ -26,6 +34,23 @@ export async function generateMetadata() {
   });
 }
 
+/**
+ * Halaman beranda (Home Page) dari portofolio.
+ *
+ * Menampilkan tiga bagian utama:
+ * 1. **Hero Section** — Foto avatar, headline, subline, dan tombol CTA menuju /about.
+ *    Menampilkan badge "Featured Work" jika `home.featured.display` aktif.
+ * 2. **Blog Preview** (opsional) — Tampil jika rute `/blog` aktif di konfigurasi.
+ *    Menampilkan 2 postingan blog terbaru.
+ * 3. **Projects** — Menampilkan proyek dari file MDX di `src/app/work/projects/`.
+ *    - `range={[1, 1]}` → proyek pertama saja (di atas blog preview)
+ *    - `range={[2]}`   → semua proyek mulai dari index ke-2 (di bawah blog preview)
+ *
+ * Cara mengubah konten:
+ * - Teks headline/subline  → edit `home` di `src/resources/content.tsx`
+ * - Tampilan blog          → aktifkan/nonaktifkan rute `/blog` di `once-ui.config.ts`
+ * - Proyek yang ditampilkan → ubah file .mdx di `src/app/work/projects/`
+ */
 export default function Home() {
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">

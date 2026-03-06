@@ -7,9 +7,29 @@ import { Flex, Spinner, Button, Heading, Column, PasswordInput } from "@once-ui-
 import NotFound from "@/app/not-found";
 
 interface RouteGuardProps {
-  children: React.ReactNode;
+  children: React.ReactNode; // Konten yang akan dirender jika rute diizinkan dan terautentikasi
 }
 
+/**
+ * Komponen pelindung rute (Route Guard) yang mengontrol akses ke setiap halaman.
+ *
+ * Cara kerja:
+ * 1. Saat URL berubah, komponen memeriksa apakah rute saat ini aktif di konfigurasi `routes`.
+ *    - Jika tidak aktif → tampilkan halaman 404 (NotFound).
+ * 2. Jika rute aktif, cek apakah rute tersebut memerlukan password (di `protectedRoutes`).
+ *    - Jika memerlukan password → panggil `/api/check-auth` untuk memeriksa sesi yang ada.
+ *    - Jika sudah terautentikasi → langsung render children.
+ *    - Jika belum → tampilkan form input password.
+ * 3. Password diverifikasi di `/api/authenticate`. Jika benar, sesi disimpan dan childen dirender.
+ *
+ * State yang dikelola:
+ * - `isRouteEnabled`    — Apakah rute ini diizinkan berdasarkan konfigurasi
+ * - `isPasswordRequired` — Apakah rute ini dilindungi password
+ * - `isAuthenticated`   — Apakah pengguna sudah berhasil login
+ * - `password`          — Input password dari form
+ * - `error`             — Pesan error jika password salah
+ * - `loading`           — Status loading saat pemeriksaan rute sedang berjalan
+ */
 const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   const pathname = usePathname();
   const [isRouteEnabled, setIsRouteEnabled] = useState(false);

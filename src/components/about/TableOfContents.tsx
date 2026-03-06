@@ -4,12 +4,32 @@ import type { FC } from "react";
 import { Column, Flex, Text } from "@once-ui-system/core";
 import styles from "./about.module.scss";
 
+/**
+ * Tipe data untuk satu section di dalam Table of Contents.
+ */
+type TocSection = {
+  /** Judul section, juga digunakan sebagai ID untuk scrolling */
+  title: string;
+  /** Jika false, section ini tidak ditampilkan di ToC */
+  display: boolean;
+  /** Daftar sub-item (heading level 2 ke bawah) */
+  items: string[];
+};
+
+/**
+ * Props untuk komponen TableOfContents.
+ */
 interface TableOfContentsProps {
-  structure: {
-    title: string;
-    display: boolean;
-    items: string[];
-  }[];
+  /**
+   * Struktur navigasi yang dihasilkan dari halaman about.
+   * Setiap item mewakili satu section dengan judul dan sub-item opsional.
+   */
+  structure: TocSection[];
+  /**
+   * Konfigurasi ToC dari `about` di `content.tsx`:
+   * - `display`  — Apakah ToC ditampilkan (jika false, komponen render null)
+   * - `subItems` — Apakah sub-item ditampilkan di bawah setiap section
+   */
   about: {
     tableOfContent: {
       display: boolean;
@@ -18,6 +38,23 @@ interface TableOfContentsProps {
   };
 }
 
+/**
+ * Komponen navigasi Table of Contents untuk halaman About.
+ *
+ * Ditampilkan sebagai panel sticky di sisi kiri halaman (disembunyikan di layar kecil).
+ * Mengizinkan pengguna melompat ke section tertentu dengan smooth scroll.
+ *
+ * Cara kerja:
+ * - Setiap section dan sub-item dapat diklik
+ * - Klik memanggil `scrollTo()` yang menggunakan `window.scrollTo` dengan offset 80px
+ *   (untuk menghindari section tertutup di bawah header yang fixed)
+ * - Sub-item hanya ditampilkan jika `about.tableOfContent.subItems` bernilai true
+ * - Disembunyikan di breakpoint medium (`m={{ hide: true }}`)
+ *
+ * Cara mengkonfigurasi:
+ * - Edit `about.tableOfContent.display` dan `about.tableOfContent.subItems`
+ *   di `src/resources/content.tsx` untuk mengaktifkan/menonaktifkan ToC dan sub-item
+ */
 const TableOfContents: FC<TableOfContentsProps> = ({ structure, about }) => {
   const scrollTo = (id: string, offset: number) => {
     const element = document.getElementById(id);

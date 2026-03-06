@@ -1,6 +1,6 @@
-// @ts-ignore
+// @ts-ignore — modul ini tidak memiliki definisi tipe yang lengkap
 import { MDXRemote } from "next-mdx-remote/rsc";
-// @ts-ignore
+// @ts-ignore — modul ini tidak memiliki definisi tipe yang lengkap
 import type { MDXRemoteProps } from "next-mdx-remote/rsc";
 import React from "react";
 import type { ReactNode } from "react";
@@ -80,6 +80,15 @@ function createImage({ alt, src, ...props }: MediaProps & { src: string }) {
   );
 }
 
+/**
+ * Mengekstrak teks mentah (plain text) dari node React.
+ *
+ * Digunakan untuk mengubah konten heading (yang bisa berupa elemen React bersarang)
+ * menjadi string sederhana untuk keperluan pembuatan slug URL.
+ *
+ * @param {ReactNode} node - Node React yang akan diekstrak teksnya
+ * @returns {string} String teks dari node tersebut
+ */
 function extractText(node: ReactNode): string {
   if (typeof node === "string" || typeof node === "number") {
     return String(node);
@@ -96,13 +105,28 @@ function extractText(node: ReactNode): string {
   return "";
 }
 
+/**
+ * Mengubah teks heading menjadi slug URL yang valid.
+ *
+ * Langkah-langkah konversi:
+ * 1. Ekstrak teks dari node React
+ * 2. Ganti karakter '&' menjadi 'and' agar slug tetap terbaca
+ * 3. Transliterasi karakter non-latin (contoh: aksara Arab, Jepang) menjadi huruf latin
+ * 4. Ubah menjadi huruf kecil dan ganti spasi dengan tanda pisah '-'
+ * 5. Gabungkan tanda pisah berulang menjadi satu
+ *
+ * Contoh: "Hello & World" → "hello-and-world"
+ *
+ * @param {ReactNode} str - Node React yang berisi teks heading
+ * @returns {string} Slug yang aman untuk digunakan sebagai ID dan URL anchor
+ */
 function slugify(str: ReactNode): string {
   const text = extractText(str);
-  const strWithAnd = text.replace(/&/g, " and "); // Replace & with 'and'
+  const strWithAnd = text.replace(/&/g, " and "); // Ganti '&' dengan 'and' agar slug lebih terbaca
   return transliterate(strWithAnd, {
     lowercase: true,
-    separator: "-", // Replace spaces with -
-  }).replace(/\-\-+/g, "-"); // Replace multiple - with single -
+    separator: "-", // Ganti spasi dengan tanda pisah (-)
+  }).replace(/\-\-+/g, "-"); // Gabungkan tanda pisah berulang menjadi satu
 }
 
 function createHeading(as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") {

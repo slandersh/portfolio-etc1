@@ -70,14 +70,16 @@ export default function Post({ post, thumbnail, direction }: PostProps) {
               {formatDate(post.metadata.publishedAt, false)}
             </Text>
           </Row>
-          <Text variant="heading-strong-l" wrap="balance">
-            {post.metadata.title}
-          </Text>
-          {post.metadata.tag && (
-            <Text variant="label-strong-s" onBackground="neutral-weak">
-              {post.metadata.tag}
+          <Column gap="8">
+            <Text variant="heading-strong-l" wrap="balance">
+              {post.metadata.title}
             </Text>
-          )}
+            {post.metadata.tag && (
+              <Text variant="label-strong-s" onBackground="neutral-weak">
+                {post.metadata.tag}
+              </Text>
+            )}
+          </Column>
         </Column>
       </Row>
     </Card>

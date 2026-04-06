@@ -1,7 +1,10 @@
-import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Store, Work, Stream } from "@/types";
+import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Store, Work, Stream, Community, Podcast, Writer } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 import { store } from "./store";
 import { stream } from "./stream";
+import { community } from "./community";
+import { podcast } from "./podcast";
+import { writer } from "./writer";
 
 const person: Person = {
   firstName: "Roy Subagya",
@@ -289,4 +292,4 @@ const gallery: Gallery = {
 // Data store sekarang dikelola di src/resources/store.ts
 
 // Ekspor semua konten
-export { person, social, newsletter, home, about, blog, work, gallery, store, stream };
+export { person, social, newsletter, home, about, blog, work, gallery, store, stream, community, podcast, writer };

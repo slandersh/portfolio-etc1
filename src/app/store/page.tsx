@@ -1,4 +1,4 @@
-import { Meta } from "@once-ui-system/core";
+import { Meta, Column } from "@once-ui-system/core";
 import { store, baseURL } from "@/resources";
 import StoreContent from "@/components/store/StoreContent";
 import { getPosts } from "@/utils/utils";
@@ -31,5 +31,9 @@ export default function StorePage() {
     }
   }));
 
-  return <StoreContent products={products} />;
+  return (
+    <Column fillWidth horizontal="center">
+      <StoreContent products={products} />
+    </Column>
+  );
 }

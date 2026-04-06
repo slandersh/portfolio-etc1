@@ -24,6 +24,9 @@ const routes: RoutesConfig = {
   "/gallery": true,
   "/store": true,
   "/stream": true,
+  "/community": true,
+  "/stream/podcast": true,
+  "/writer": true,
 };
 
 const display: DisplayConfig = {

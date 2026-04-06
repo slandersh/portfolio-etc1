@@ -22,6 +22,8 @@ import {
   PiImageDuotone,
   PiStorefrontDuotone,
   PiShoppingCartDuotone,
+  PiPenNibDuotone,
+  PiUsersThreeDuotone,
 } from "react-icons/pi";
 
 import {
@@ -68,6 +70,8 @@ export const iconLibrary: Record<string, IconType> = {
   reddit: FaReddit,
   telegram: FaTelegram,
   instagram: FaInstagram,
+  writer: PiPenNibDuotone,
+  community: PiUsersThreeDuotone,
 };
 
 export type IconLibrary = typeof iconLibrary;

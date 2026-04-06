@@ -336,3 +336,112 @@ export interface Store extends BasePageConfig {
   /** WhatsApp Business number for automation */
   whatsappNumber?: string;
 }
+/**
+ * Represents a community news or announcement.
+ */
+export type CommunityNews = {
+  title: string;
+  date: string;
+  summary: string;
+  link?: string;
+};
+
+/**
+ * Community page configuration.
+ */
+export interface Community extends BasePageConfig {
+  /** Community-specific headline */
+  headline: React.ReactNode;
+  /** Community subline/description */
+  subline: React.ReactNode;
+  /** Discord or other community link */
+  discordLink?: string;
+  /** List of community news */
+  news: CommunityNews[];
+  /** Recent supporters for donation section */
+  supporters?: Supporter[];
+  /** List of donation platforms */
+  donationPlatforms?: DonationPlatform[];
+}
+/**
+ * Podcast platform configuration.
+ */
+export type PodcastPlatform = {
+  name: string;
+  link: string;
+  icon?: string;
+};
+
+/**
+ * Podcast page configuration.
+ */
+export interface Podcast extends BasePageConfig {
+  /** Podcast-specific headline */
+  headline: React.ReactNode;
+  /** Podcast subline/description */
+  subline: React.ReactNode;
+  /** Available platforms for the podcast */
+  platforms: PodcastPlatform[];
+  /** Podcast categories */
+  categories: string[];
+}
+
+/**
+ * Writer category configuration.
+ */
+export type WriterCategory = "Novel" | "Short Story" | "Series" | string;
+
+/**
+ * Work of a writer.
+ */
+export type LiteratureWork = {
+  title: string;
+  category: WriterCategory;
+  summary: string;
+  link?: string;
+  image?: string;
+  isRecommended?: boolean;
+};
+
+/**
+ * Writer page configuration.
+ */
+export interface Writer extends BasePageConfig {
+  /** Writer-specific headline */
+  headline: React.ReactNode;
+  /** Writer subline/description */
+  subline: React.ReactNode;
+  /** List of literature works */
+  works: LiteratureWork[];
+}
+/**
+ * Tipe data untuk anggota tim yang terlibat dalam sebuah proyek atau postingan blog.
+ */
+export type Team = {
+  name: string;      // Nama lengkap anggota tim
+  role: string;      // Jabatan atau peran dalam proyek
+  avatar: string;    // Path relatif ke gambar avatar (contoh: "/images/avatar.jpg")
+  linkedIn: string;  // URL profil LinkedIn
+};
+
+/**
+ * Tipe data metadata yang diekstrak dari frontmatter file MDX.
+ */
+export type Metadata = {
+  title: string;          // Judul utama halaman/postingan
+  subtitle?: string;      // Subjudul (opsional)
+  publishedAt: string;    // Tanggal publikasi dalam format ISO (contoh: "2026-03-04")
+  summary: string;        // Ringkasan singkat konten untuk SEO dan preview
+  image?: string;         // URL gambar utama (opsional)
+  images: string[];       // Daftar URL gambar tambahan
+  tag?: string;           // Tag atau label kategori (opsional)
+  team: Team[];           // Daftar anggota tim yang terlibat
+  link?: string;          // URL tautan eksternal terkait (opsional)
+  // Field Tambahan untuk Store & Stream
+  price?: string;         // Harga produk (Store)
+  category?: string;      // Kategori produk (Store)
+  badge?: string;         // Badge produk (contoh: "New", "Best Seller") (Store)
+  date?: string;          // Tanggal berita/update (Stream - jika berbeda dari publishedAt)
+  isRecommended?: boolean; // Label rekomendasi untuk Writer
+  slug?: string;
+};

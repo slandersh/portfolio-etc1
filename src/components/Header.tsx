@@ -5,7 +5,7 @@ import { useEffect, useState, type FC, type ReactNode } from "react";
 
 import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
-import { routes, display, person, about, blog, work, gallery, store, stream } from "@/resources";
+import { routes, display, person, about, blog, work, gallery, store, stream, community, podcast, writer } from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 
@@ -147,6 +147,25 @@ export const Header = () => {
                   </Row>
                 </>
               )}
+              {routes["/writer"] && (
+                <>
+                  <Row s={{ hide: true }}>
+                    <ToggleButton
+                      prefixIcon="writer"
+                      href="/writer"
+                      label={writer.label}
+                      selected={pathname.startsWith("/writer")}
+                    />
+                  </Row>
+                  <Row hide s={{ hide: false }}>
+                    <ToggleButton
+                      prefixIcon="writer"
+                      href="/writer"
+                      selected={pathname.startsWith("/writer")}
+                    />
+                  </Row>
+                </>
+              )}
               {routes["/gallery"] && (
                 <>
                   <Row s={{ hide: true }}>
@@ -189,17 +208,36 @@ export const Header = () => {
                 <>
                   <Row s={{ hide: true }}>
                     <ToggleButton
-                      prefixIcon="mic"
+                      prefixIcon="play"
                       href="/stream"
-                      label="Stream"
-                      selected={pathname.startsWith("/stream")}
+                      label="Stream & Podcast"
+                      selected={pathname === "/stream"}
                     />
                   </Row>
                   <Row hide s={{ hide: false }}>
                     <ToggleButton
-                      prefixIcon="mic"
+                      prefixIcon="play"
                       href="/stream"
-                      selected={pathname.startsWith("/stream")}
+                      selected={pathname === "/stream"}
+                    />
+                  </Row>
+                </>
+              )}
+              {routes["/community"] && (
+                <>
+                  <Row s={{ hide: true }}>
+                    <ToggleButton
+                      prefixIcon="community"
+                      href="/community"
+                      label={community.label}
+                      selected={pathname.startsWith("/community")}
+                    />
+                  </Row>
+                  <Row hide s={{ hide: false }}>
+                    <ToggleButton
+                      prefixIcon="community"
+                      href="/community"
+                      selected={pathname.startsWith("/community")}
                     />
                   </Row>
                 </>

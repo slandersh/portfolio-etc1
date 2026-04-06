@@ -1,19 +1,29 @@
 import { Column } from "@once-ui-system/core";
 import StreamContent from "@/components/stream/StreamContent";
 import { getPosts } from "@/utils/utils";
+import { stream } from "@/resources";
 
 export default function Stream() {
   const allNews = getPosts(["src", "app", "stream", "posts"]);
+  const allPodcasts = getPosts(["src", "app", "stream", "podcast", "posts"]);
 
-  const newsUpdates = allNews.map((n) => ({
-    title: n.metadata.title,
-    date: n.metadata.date || n.metadata.publishedAt,
-    summary: n.metadata.summary,
+  const news = allNews.map((n) => ({
+    ...n.metadata,
+    slug: n.slug,
+  }));
+
+  const podcasts = allPodcasts.map((p) => ({
+    ...p.metadata,
+    slug: p.slug,
   }));
 
   return (
     <Column fillWidth horizontal="center">
-      <StreamContent newsUpdates={newsUpdates} />
+      <StreamContent 
+        platforms={stream.platforms} 
+        news={news} 
+        podcasts={podcasts} 
+      />
     </Column>
   );
 }

@@ -19,6 +19,7 @@ import {
   Textarea,
   Select,
   DateInput,
+  Grid,
 } from "@once-ui-system/core";
 import { store, baseURL, person, about } from "@/resources";
 import StoreSidebar from "@/components/store/StoreSidebar";
@@ -35,13 +36,6 @@ export default function StoreContent({ products }: StoreContentProps) {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [currency, setCurrency] = useState<Currency>("USD");
   
-  // === State Donasi ===
-  // donationAmount disimpan sebagai string angka mentah dalam SATUAN MATA UANG AKTIF saat ini
-  // (bukan selalu USD — nilainya sudah dikonversi sesuai mata uang yang dipilih)
-  const [donationAmount, setDonationAmount] = useState("5");
-  const [supporterName, setSupporterName] = useState("");
-  const [supporterMessage, setSupporterMessage] = useState("");
-
   // === State Permintaan Layanan ===
   const [serviceType, setServiceType] = useState("Web Development");
   const [projectTitle, setProjectTitle] = useState("");
@@ -55,13 +49,6 @@ export default function StoreContent({ products }: StoreContentProps) {
   const handleCurrencyToggle = () => {
     const newCurrency: Currency = currency === "USD" ? "IDR" : "USD";
     const rate = getExchangeRate();
-
-    // Konversi Jumlah Donasi (tersimpan sebagai angka mentah dalam mata uang saat ini)
-    const donationNum = Number.parseFloat(donationAmount) || 0;
-    if (donationNum > 0) {
-      const converted = newCurrency === "IDR" ? Math.round(donationNum * rate) : Math.round(donationNum / rate);
-      setDonationAmount(converted.toString());
-    }
 
     // Konversi Anggaran Permintaan Layanan
     const budgetNum = Number.parseFloat(requestBudget.replace(/[^0-9.]/g, "").replace(/\./g, ""));
@@ -82,7 +69,7 @@ export default function StoreContent({ products }: StoreContentProps) {
   ];
 
   const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
+    return products.filter((product: Product) => {
       const matchesCategory = activeCategory === "All" || product.category === activeCategory;
       const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             product.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -102,13 +89,14 @@ export default function StoreContent({ products }: StoreContentProps) {
       const params = new URLSearchParams(window.location.search);
       const item = params.get("item");
       if (item) {
-        const product = store.products.find(p => p.title === item);
+        // Cari di props products, bukan di store.products statis yang sudah kosong
+        const product = products.find(p => p.title === item);
         if (product?.details) {
           setSelectedProduct(product);
         }
       }
     }
-  }, []);
+  }, [products]);
 
   return (
     <Column maxWidth="m" fillWidth gap="xl" paddingY="24">
@@ -137,7 +125,7 @@ export default function StoreContent({ products }: StoreContentProps) {
       <Column fillWidth horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center" gap="16">
           <RevealFx translateY="4">
-            <Heading variant="display-strong-l" style={{ textAlign: "center" }}>{store.title}</Heading>
+            <Heading variant="display-strong-l" align="center" style={{ textAlign: "center", width: "100%" }}>{store.title}</Heading>
           </RevealFx>
           <RevealFx translateY="8" delay={0.2}>
             <Text variant="heading-default-xl" onBackground="neutral-weak" align="center">
@@ -146,27 +134,23 @@ export default function StoreContent({ products }: StoreContentProps) {
           </RevealFx>
         </Column>
         
-        {activeCategory !== "Request" && activeCategory !== "Donation" && (
-          <RevealFx translateY="12" delay={0.4} fillWidth>
+        {activeCategory !== "Request" && (
+          <RevealFx translateY="12" delay={0.4}>
             <Column fillWidth horizontal="center" marginTop="32" paddingX="m">
               <Row 
                 maxWidth="s" 
                 fillWidth 
                 vertical="center" 
                 gap="12"
-                background="transparent" 
+                background="surface" 
                 radius="full" 
                 paddingX="20" 
+                border="neutral-alpha-weak"
                 style={{ 
                   height: "56px", 
-                  boxShadow: "0 8px 32px rgba(255, 255, 255, 0.1)",
-                  background: "rgba(255, 255, 255, 0.1)",
-                  backdropFilter: "blur(40px)",
-                  WebkitBackdropFilter: "blur(40px)",
-                  border: "1px solid rgba(255, 255, 255, 0.25)"
                 }}
               >
-                <Icon name="search" size="s" style={{ color: "rgba(255, 255, 255, 0.7)" }} />
+                <Icon name="search" size="s" onBackground="neutral-weak" />
                 <input
                   id="search-products"
                   placeholder="What are you looking for?"
@@ -178,7 +162,7 @@ export default function StoreContent({ products }: StoreContentProps) {
                     boxShadow: "none",
                     height: "100%",
                     flex: 1,
-                    color: "white",
+                    color: "inherit",
                     outline: "none",
                     fontFamily: "inherit",
                     fontSize: "1rem"
@@ -190,7 +174,6 @@ export default function StoreContent({ products }: StoreContentProps) {
                     size="s"
                     variant="ghost"
                     onClick={() => setSearchQuery("")}
-                    style={{ color: "rgba(255, 255, 255, 0.6)" }}
                   />
                 )}
               </Row>
@@ -198,158 +181,6 @@ export default function StoreContent({ products }: StoreContentProps) {
           </RevealFx>
         )}
 
-        {activeCategory === "Donation" && (
-          <RevealFx translateY="16" delay={0.5} fillWidth>
-            <Column gap="24" fillWidth>
-              <Card
-                fillWidth
-                padding="32"
-                gap="32"
-                background="surface"
-                border="brand-alpha-strong"
-                radius="l"
-                style={{
-                  backdropFilter: "blur(12px)",
-                  borderWidth: "1px",
-                  borderStyle: "solid",
-                  boxShadow: "0 20px 40px rgba(var(--brand-rgb), 0.1)",
-                }}
-              >
-                <Row gap="32" vertical="start" wrap>
-                  <Column flex={1} gap="16">
-                    <Tag variant="brand" size="l">Support My Work</Tag>
-                    <Heading variant="display-strong-xs">Fuel my creativity</Heading>
-                    <Text variant="body-default-m" onBackground="neutral-weak">
-                      Inspired by platforms like Saweria and Trakteer. Your support helps me maintain my projects and learn new things.
-                    </Text>
-                    
-                    <Column gap="8" marginTop="12">
-                      <Text variant="label-strong-s">Top Supporters</Text>
-                      {store.supporters?.map((s) => (
-                        <Row key={`${s.name}-${s.amount}-${s.date}`} gap="12" vertical="center" background="neutral-alpha-weak" padding="12" radius="m">
-                          <Icon name="heart" size="xs" onBackground="brand-weak" />
-                          <Column flex={1}>
-                            <Row horizontal="between">
-                              <Text variant="label-strong-s">{s.name}</Text>
-                              <Text variant="label-default-xs" onBackground="brand-weak">
-                                {Number.isNaN(Number.parseFloat(s.amount.replace(/[^0-9.]/g, ""))) 
-                                  ? s.amount 
-                                  : formatCurrency(Number.parseFloat(s.amount.replace(/[^0-9.]/g, "")), currency)}
-                              </Text>
-                            </Row>
-                            {s.message && (
-                              <Text variant="body-default-xs" onBackground="neutral-weak">{s.message}</Text>
-                            )}
-                          </Column>
-                        </Row>
-                      ))}
-                    </Column>
-                  </Column>
-
-                  <Column flex={1} gap="24" background="neutral-alpha-weak" padding="24" radius="l">
-                    <Column gap="12">
-                      <Text variant="label-strong-m">Support via Platforms</Text>
-                      <Row gap="8" wrap>
-                        {store.donationPlatforms?.map((p) => (
-                          <Button
-                            key={p.name}
-                            href={p.link}
-                            variant="secondary"
-                            size="s"
-                            style={{ 
-                              borderColor: p.color,
-                              color: p.color
-                            }}
-                          >
-                            {p.name}
-                          </Button>
-                        ))}
-                      </Row>
-                    </Column>
-
-                    <div style={{ height: "1px", background: "var(--neutral-alpha-weak)", width: "100%" }} />
-
-                    <Column gap="20">
-                      <Text variant="label-strong-m">Direct Donation</Text>
-                      <Row gap="8" wrap>
-                        {["5", "10", "25", "50"].map((val) => {
-                          // Nilai preset dalam USD; dikonversi ke IDR untuk tampilan dan penyimpanan
-                          const usdVal = Number.parseInt(val);
-                          const rate = getExchangeRate();
-                          const amountInCurrency = currency === "IDR" ? usdVal * rate : usdVal;
-                          const rawDonation = Number.parseFloat(donationAmount.replace(/[^0-9.]/g, "")) || 0;
-                          const isActive = Math.round(rawDonation) === Math.round(amountInCurrency);
-
-                          return (
-                            <Button
-                              key={val}
-                              variant={isActive ? "primary" : "secondary"}
-                              onClick={() => {
-                                // Store the value in current currency unit
-                                setDonationAmount(amountInCurrency.toString());
-                              }}
-                              size="s"
-                            >
-                              {formatCurrency(usdVal, currency)}
-                            </Button>
-                          );
-                        })}
-                        <div style={{ width: "120px" }}>
-                          <Input
-                            id="custom-amount"
-                            label="Custom"
-                            placeholder={currency === "IDR" ? "50.000" : "0"}
-                            prefix={currency === "IDR" ? "Rp" : "$"}
-                            value={(() => {
-                              const rawDonation = Number.parseFloat(donationAmount.replace(/[^0-9.]/g, "")) || 0;
-                              const rate = getExchangeRate();
-                              const isQuickAmount = [5, 10, 25, 50].some(v => {
-                                const amountInCurrency = currency === "IDR" ? v * rate : v;
-                                return Math.round(rawDonation) === Math.round(amountInCurrency);
-                              });
-                              return isQuickAmount ? "" : formatPriceInput(donationAmount, currency);
-                            })()}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                              // Simpan hanya angka mentah tanpa konversi (pengguna input dalam mata uang aktif)
-                              const raw = e.target.value.replace(/[^0-9]/g, "");
-                              setDonationAmount(raw);
-                            }}
-                          />
-                        </div>
-                      </Row>
-                      
-                      <Input
-                        id="supporter-name"
-                        label="Your Name"
-                        placeholder="Anonymous"
-                        value={supporterName}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setSupporterName(e.target.value)}
-                      />
-                      
-                      <Input
-                        id="supporter-message"
-                        label="Message"
-                        placeholder="Optional message..."
-                        value={supporterMessage}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setSupporterMessage(e.target.value)}
-                      />
-
-                      <Button
-                        href={`https://ko-fi.com?amount=${donationAmount}`}
-                        variant="primary"
-                        size="l"
-                        fillWidth
-                        prefixIcon="heart"
-                      >
-                        Support {formatCurrency(Number.parseFloat(donationAmount.replace(/[^0-9.]/g, "")) || 0, currency, false)}
-                      </Button>
-                    </Column>
-                  </Column>
-                </Row>
-              </Card>
-            </Column>
-          </RevealFx>
-        )}
 
       {/* Request Section */}
       {activeCategory === "Request" && (
@@ -541,16 +372,16 @@ export default function StoreContent({ products }: StoreContentProps) {
       )}
 
       {/* Grid Produk */}
-      {activeCategory !== "Donation" && activeCategory !== "Request" && (
+      {activeCategory !== "Request" && (
         <Column fillWidth gap="l" marginTop="32">
           {filteredProducts.length > 0 ? (
-            <Row wrap gap="24" horizontal="center">
+            <Grid columns="3" s={{ columns: 1 }} m={{ columns: 2 }} gap="24" fillWidth>
               {filteredProducts.map((product, index) => (
                 <RevealFx 
                   key={product.title} 
                   translateY="16" 
                   delay={index * 0.1}
-                  style={{ width: "100%", maxWidth: "400px" }}
+                  fillWidth
                 >
                   <Card 
                     fillWidth
@@ -558,6 +389,8 @@ export default function StoreContent({ products }: StoreContentProps) {
                     gap="12"
                     style={{ 
                       height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
                       transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                       cursor: product.details ? "pointer" : "default",
                     }}
@@ -571,7 +404,7 @@ export default function StoreContent({ products }: StoreContentProps) {
                     tabIndex={product.details ? 0 : -1}
                   >
                     {product.image && (
-                      <div style={{ position: "relative" }}>
+                      <div style={{ position: "relative", width: "100%" }}>
                         <Media
                           src={product.image}
                           alt={product.title}
@@ -585,48 +418,52 @@ export default function StoreContent({ products }: StoreContentProps) {
                         )}
                       </div>
                     )}
-                    <Column gap="8">
+                    <Column gap="8" flex={1}>
                       <Row horizontal="between" vertical="center">
                         <Heading variant="heading-strong-m">{product.title}</Heading>
                         {product.badge && (
                           <Tag variant="neutral" size="s">{product.badge}</Tag>
                         )}
                       </Row>
-                      <Text variant="body-default-s" onBackground="neutral-weak" style={{ minHeight: "3em" }}>
+                      <Text variant="body-default-s" onBackground="neutral-weak">
                         {product.description}
                       </Text>
-                      <Row horizontal="between" vertical="center" paddingTop="12">
+                      <Row horizontal="between" vertical="center" style={{ marginTop: "auto", paddingTop: "12px" }}>
                         <Text variant="label-strong-m" onBackground="brand-weak">
                           {product.price && product.price !== "Free"
                             ? formatCurrency(Number.parseFloat(product.price.replace(/[^0-9.]/g, "")), currency)
                             : product.price || "Free"}
                         </Text>
                         <Row gap="8">
-                          <IconButton
-                            icon="share"
-                            size="s"
-                            variant="ghost"
-                            onClick={(e: MouseEvent) => {
-                              e.stopPropagation();
-                              handleCopyLink(product.title);
-                            }}
-                          />
-                          <Button
-                            href={product.link}
-                            variant="secondary"
-                            size="s"
-                            suffixIcon="arrowUpRight"
-                            onClick={(e: MouseEvent) => e.stopPropagation()}
-                          >
-                            {product.category === "Affiliate" ? "View" : "Get"}
-                          </Button>
+                          <Flex>
+                            <IconButton
+                              icon="share"
+                              size="s"
+                              variant="ghost"
+                              onClick={(e: MouseEvent) => {
+                                e.stopPropagation();
+                                handleCopyLink(product.title);
+                              }}
+                            />
+                          </Flex>
+                          <Flex>
+                            <Button
+                              href={product.link}
+                              variant="secondary"
+                              size="s"
+                              suffixIcon="arrowUpRight"
+                              onClick={(e: MouseEvent) => e.stopPropagation()}
+                            >
+                              {product.category === "Affiliate" ? "View" : "Get"}
+                            </Button>
+                          </Flex>
                         </Row>
                       </Row>
                     </Column>
                   </Card>
                 </RevealFx>
               ))}
-            </Row>
+            </Grid>
           ) : (
             <Column fillWidth horizontal="center" paddingY="64" gap="16">
               <Icon name="search" size="xl" onBackground="neutral-weak" />
@@ -670,14 +507,15 @@ export default function StoreContent({ products }: StoreContentProps) {
           style={{ width: "100%", maxWidth: "1000px", display: "flex", justifyContent: "center", position: "relative" }}
         >
           <RevealFx translateY="24" fillWidth>
-            <Card
-              fillWidth
-              padding="32"
-              gap="32"
-              background="surface"
-              radius="l"
-              style={{ maxHeight: "90vh", overflowY: "auto", position: "relative" }}
-            >
+            <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+              <Card
+                fillWidth
+                padding="32"
+                gap="32"
+                background="surface"
+                radius="l"
+                style={{ maxHeight: "90vh", overflowY: "auto", position: "relative" }}
+              >
               {/* Tombol Tutup Modal: posisi absolut sudut kanan atas */}
               <div style={{ position: "absolute", top: "16px", right: "16px", zIndex: 11 }}>
                 <IconButton icon="close" variant="ghost" onClick={() => setSelectedProduct(null)} />
@@ -739,26 +577,31 @@ export default function StoreContent({ products }: StoreContentProps) {
                   )}
 
                   <Row gap="16" marginTop="12">
-                    <Button
-                      href={selectedProduct.link}
-                      variant="primary"
-                      fillWidth
-                      size="l"
-                      suffixIcon="arrowUpRight"
-                    >
-                      {selectedProduct.category === "Affiliate" ? "Purchase" : "Get It Now"}
-                    </Button>
-                    <IconButton
-                      variant="secondary"
-                      size="l"
-                      onClick={() => handleCopyLink(selectedProduct.title)}
-                      icon="share"
-                    />
+                    <Flex fillWidth>
+                      <Button
+                        href={selectedProduct.link}
+                        variant="primary"
+                        fillWidth
+                        size="l"
+                        suffixIcon="arrowUpRight"
+                      >
+                        {selectedProduct.category === "Affiliate" ? "Purchase" : "Get It Now"}
+                      </Button>
+                    </Flex>
+                    <Flex>
+                      <IconButton
+                        variant="secondary"
+                        size="l"
+                        onClick={() => handleCopyLink(selectedProduct.title)}
+                        icon="share"
+                      />
+                    </Flex>
                   </Row>
                 </Column>
               </Row>
             </Card>
-          </RevealFx>
+          </div>
+        </RevealFx>
         </div>
       </Flex>
     )}

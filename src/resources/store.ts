@@ -19,34 +19,9 @@ const store: Store = {
   path: "/store",
   label: "Store",
   title: "Store",
-  description: "Jelajahi produk, layanan, dan tautan afiliasi saya",
-  categories: ["All", "Affiliate", "Digital Products", "Services", "SaaS", "Donation", "Request"],
+  description: "Temukan berbagai macam produk digital pilihan, layanan konsultasi profesional, serta rekomendasi tautan afiliasi yang telah saya kurasi secara khusus. Setiap item dirancang untuk membantu mempercepat alur kerja dan meningkatkan kualitas proyek Anda.",
+  categories: ["All", "Affiliate", "Digital Products", "Services", "SaaS", "Request"],
   products: [], // Data produk sekarang dikelola melalui file MDX di src/app/store/products/
-  supporters: [
-    {
-      name: "Alice",
-      amount: "$10",
-      message: "Teruslah berkarya!",
-      date: "2026-03-01"
-    },
-    {
-      name: "Bob",
-      amount: "$5",
-      date: "2026-02-28"
-    },
-    {
-      name: "Charlie",
-      amount: "$25",
-      message: "Terima kasih atas SaaS kit-nya, luar biasa!",
-      date: "2026-02-25"
-    }
-  ],
-  donationPlatforms: [
-    { name: "Saweria", link: "https://saweria.co/mintgyaa", color: "#faae2b" },
-    { name: "Trakteer", link: "https://trakteer.id/mintgyaa", color: "#be1e2d" },
-    { name: "Buy Me a Coffee", link: "https://buymeacoffee.com/mintgyaa", color: "#FFDD00" },
-    { name: "Ko-fi", link: "https://ko-fi.com/mintgyaa", color: "#29ABE2" }
-  ],
   streamLink: "/stream",
   requestLink: "#request",
   whatsappNumber: "6281234567890"

@@ -1,26 +1,6 @@
-/**
- * @file StreamContent.tsx
- * @description Komponen halaman Stream yang menampilkan platform live stream dan berita terkini.
- *
- * Fitur utama:
- * - **Filter platform** — Tombol filter untuk menampilkan platform tertentu (atau semua)
- * - **Featured stream** (opsional) — Embed iframe live stream jika `stream.featuredStream` diisi.
- *   Jika kosong, tampilkan gambar placeholder.
- * - **Platform cards** — Kartu untuk setiap platform dengan statusnya (Live/Offline/Scheduled)
- * - **Sidebar berita** — Daftar berita/pengumuman stream terbaru
- * - **CTA Donasi** — Tombol yang diarahkan ke halaman Store bagian Donasi
- *
- * Cara mengkonfigurasi:
- * - Edit objek `stream` di `src/resources/content.tsx`
- * - Untuk embed stream langsung, isi `stream.featuredStream` dengan URL embed
- *   (contoh: URL embed YouTube live atau Twitch)
- * - Tambah platform baru di array `stream.platforms`
- * - Tambah pengumuman di array `stream.news`
- */
 "use client";
 
 import { useState } from "react";
-
 import {
   Heading,
   Text,
@@ -36,16 +16,29 @@ import {
 } from "@once-ui-system/core";
 import { stream, person, baseURL, about } from "@/resources";
 import { Schema } from "@once-ui-system/core";
-import type { StreamPlatform, StreamNews } from "@/types";
+import type { StreamPlatform, Metadata } from "@/types";
 
 interface StreamContentProps {
-  newsUpdates: StreamNews[];
+  platforms: StreamPlatform[];
+  news: Metadata[];
+  podcasts: Metadata[];
 }
 
-export default function StreamContent({ newsUpdates }: StreamContentProps) {
+type TabType = "all" | "stream" | "podcast";
+
+export default function StreamContent({ platforms, news, podcasts }: StreamContentProps) {
+  const [activeTab, setActiveTab] = useState<TabType>("all");
   const [activePlatform, setActivePlatform] = useState("All");
 
-  const filteredPlatforms = stream.platforms.filter((p: StreamPlatform) => 
+  const combinedNews = [...news, ...podcasts].sort((a, b) => 
+    new Date(b.date || "").getTime() - new Date(a.date || "").getTime()
+  );
+
+  const filteredNews = activeTab === "all" 
+    ? combinedNews 
+    : activeTab === "stream" ? news : podcasts;
+
+  const filteredPlatforms = platforms.filter((p: StreamPlatform) => 
     activePlatform === "All" || p.name === activePlatform
   );
 
@@ -79,7 +72,7 @@ export default function StreamContent({ newsUpdates }: StreamContentProps) {
 
         <RevealFx translateY="12" delay={0.4} fillWidth>
           <Row gap="12" horizontal="center" wrap marginTop="24">
-            {["All", ...stream.platforms.map((p: StreamPlatform) => p.name)].map((plt) => (
+            {["All", ...platforms.map((p: StreamPlatform) => p.name)].map((plt) => (
               <Button
                 key={plt}
                 variant={activePlatform === plt ? "primary" : "secondary"}
@@ -93,78 +86,100 @@ export default function StreamContent({ newsUpdates }: StreamContentProps) {
         </RevealFx>
       </Column>
 
-      <Row gap="32" wrap vertical="start" fillWidth marginTop="32">
-        {/* Area Utama Stream */}
-        <Column flex={7} gap="24">
-          <Card fillWidth background="surface" border="neutral-alpha-weak" radius="l" padding="0" style={{ overflow: "hidden" }}>
-             {stream.featuredStream ? (
-               <div style={{ position: "relative", paddingTop: "56.25%", width: "100%" }}>
-                 <iframe
-                    title="Live Stream Player"
-                    src={stream.featuredStream}
-                    frameBorder="0"
-                    allowFullScreen={true}
-                    scrolling="no"
-                    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-                 />
-               </div>
-             ) : (
-               <Media src="/images/projects/project-01/cover-01.jpg" aspectRatio="16/9" />
-             )}
-          </Card>
+      {/* Featured Stream */}
+      <RevealFx translateY="16" delay={0.3} fillWidth>
+        <Card fillWidth background="surface" border="neutral-alpha-weak" radius="l" padding="0" style={{ overflow: "hidden" }}>
+           {stream.featuredStream ? (
+             <div style={{ position: "relative", paddingTop: "56.25%", width: "100%" }}>
+               <iframe
+                  title="Live Stream Player"
+                  src={stream.featuredStream}
+                  frameBorder="0"
+                  allowFullScreen={true}
+                  scrolling="no"
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+               />
+             </div>
+           ) : (
+             <Media src="/images/projects/project-01/cover-01.jpg" aspectRatio="16/9" />
+           )}
+        </Card>
+      </RevealFx>
 
+      {/* Sub-categories Tabs */}
+      <Row gap="12" horizontal="center" fillWidth marginTop="32">
+         <Button variant={activeTab === "all" ? "primary" : "secondary"} size="s" onClick={() => setActiveTab("all")}>All</Button>
+         <Button variant={activeTab === "stream" ? "primary" : "secondary"} size="s" onClick={() => setActiveTab("stream")}>Stream</Button>
+         <Button variant={activeTab === "podcast" ? "primary" : "secondary"} size="s" onClick={() => setActiveTab("podcast")}>Podcast</Button>
+      </Row>
+
+      {activeTab !== "podcast" && (
+        <RevealFx translateY="8" delay={0.4} fillWidth>
           <Column gap="16">
             <Heading variant="heading-strong-l">Stream Platforms</Heading>
-            <Row gap="16" wrap>
-              {filteredPlatforms.map((p: StreamPlatform) => (
+            <Grid columns="3" s={{ columns: 1 }} m={{ columns: 2 }} gap="16" fillWidth>
+               {filteredPlatforms.map((p: StreamPlatform) => (
                 <Card 
                   key={p.name} 
-                  flex={1} 
                   padding="20" 
                   gap="12" 
                   background="neutral-alpha-weak" 
                   radius="m"
-                  style={{ minWidth: "200px" }}
                 >
-                  <Row horizontal="between" vertical="center">
-                    <Text variant="label-strong-m">{p.name}</Text>
-                    <Tag variant={p.status === "Live" ? "brand" : "neutral"} size="s">
-                      {p.status}
-                    </Tag>
-                  </Row>
-                  <Button href={p.link} variant="secondary" size="s" fillWidth suffixIcon="arrowUpRight">
-                    Watch on {p.name}
-                  </Button>
+                  <Flex direction="row" s={{ direction: "column" }} gap="24" fillWidth vertical="center">
+                    <Row flex={1} horizontal="between" vertical="center" gap="16">
+                      <Text variant="label-strong-l">{p.name}</Text>
+                      <Tag variant={p.status === "Live" ? "brand" : "neutral"} size="s">
+                        {p.status}
+                      </Tag>
+                    </Row>
+                    <Button href={p.link} variant="secondary" size="s" suffixIcon="arrowUpRight" style={{ minWidth: "140px" }}>
+                       Watch
+                    </Button>
+                  </Flex>
                 </Card>
               ))}
-            </Row>
+            </Grid>
+          </Column>
+        </RevealFx>
+      )}
+
+      <RevealFx translateY="12" delay={0.5} fillWidth>
+        <Column gap="24">
+          <Heading variant="heading-strong-l">
+            {activeTab === "all" ? "Latest News & Episodes" : activeTab === "stream" ? "Stream News" : "Podcast Episodes"}
+          </Heading>
+          <Column gap="16">
+            {filteredNews.map((n) => (
+              <Card key={n.title} padding="24" background="surface" border="neutral-alpha-weak" radius="m" fillWidth>
+                 <Flex direction="row" s={{ direction: "column" }} gap="24" vertical="center" fillWidth>
+                    <Column flex={2} gap="4">
+                       <Tag variant="neutral" size="s" fillWidth>{n.date}</Tag>
+                       {podcasts.some(p => p.title === n.title) && <Tag variant="brand" size="s" fillWidth>Podcast</Tag>}
+                    </Column>
+                    <Column flex={7} gap="4">
+                       <Flex direction="column" gap="4">
+                          <Text variant="heading-strong-s">{n.title}</Text>
+                          <Text variant="body-default-m" onBackground="neutral-weak">{n.summary}</Text>
+                       </Flex>
+                    </Column>
+                    <Button 
+                      href={`/stream/${podcasts.some(p => p.title === n.title) ? 'podcast/' : 'posts/'}${n.slug}`} 
+                      variant="secondary" 
+                      size="s" 
+                      suffixIcon="chevronRight" 
+                      style={{ minWidth: "140px" }}
+                    >
+                       Read More
+                    </Button>
+                 </Flex>
+              </Card>
+            ))}
           </Column>
         </Column>
-
-        {/* Sidebar: Berita & Pengumuman */}
-        <Column flex={3} gap="24">
-          <Card fillWidth padding="24" gap="20" background="surface" border="neutral-alpha-weak" radius="l">
-            <Heading variant="heading-strong-m">Stream News</Heading>
-            <Column gap="16">
-              {newsUpdates.map((n: StreamNews) => (
-                <Column key={n.title} gap="8" paddingBottom="16" style={{ borderBottom: "1px solid var(--neutral-alpha-weak)" }}>
-                  <Text variant="label-default-xs" onBackground="neutral-weak">{n.date}</Text>
-                  <Text variant="label-strong-s">{n.title}</Text>
-                  <Text variant="body-default-xs" onBackground="neutral-weak">{n.summary}</Text>
-                </Column>
-              ))}
-            </Column>
-          </Card>
-
-          <Card fillWidth padding="24" gap="16" background="brand-alpha-weak" border="brand-alpha-medium" radius="l">
-             <Heading variant="heading-strong-s">Support the Stream</Heading>
-             <Text variant="body-default-xs">Your support helps me stay live and keep creating content!</Text>
-             <Button href="/store?category=Donation" variant="primary" size="s" fillWidth prefixIcon="heart">
-               Donate Now
-             </Button>
-          </Card>
-        </Column>
-      </Row>
+      </RevealFx>
     </Column>
   );
 }
+
+import { Grid } from "@once-ui-system/core";

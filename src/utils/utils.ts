@@ -2,40 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
-/**
- * Tipe data untuk anggota tim yang terlibat dalam sebuah proyek atau postingan blog.
- */
-type Team = {
-  name: string;      // Nama lengkap anggota tim
-  role: string;      // Jabatan atau peran dalam proyek
-  avatar: string;    // Path relatif ke gambar avatar (contoh: "/images/avatar.jpg")
-  linkedIn: string;  // URL profil LinkedIn
-};
-
-/**
- * Tipe data metadata yang diekstrak dari frontmatter file MDX.
- *
- * Frontmatter adalah blok YAML di bagian atas file MDX yang mengandung
- * informasi tentang konten seperti judul, tanggal publikasi, dan gambar.
- */
-type Metadata = {
-  title: string;          // Judul utama halaman/postingan
-  subtitle?: string;      // Subjudul (opsional)
-  publishedAt: string;    // Tanggal publikasi dalam format ISO (contoh: "2026-03-04")
-  summary: string;        // Ringkasan singkat konten untuk SEO dan preview
-  image?: string;         // URL gambar utama (opsional)
-  images: string[];       // Daftar URL gambar tambahan
-  tag?: string;           // Tag atau label kategori (opsional)
-  team: Team[];           // Daftar anggota tim yang terlibat
-  link?: string;          // URL tautan eksternal terkait (opsional)
-  // Field Tambahan untuk Store & Stream
-  price?: string;         // Harga produk (Store)
-  category?: string;      // Kategori produk (Store)
-  badge?: string;         // Badge produk (contoh: "New", "Best Seller") (Store)
-  date?: string;          // Tanggal berita/update (Stream - jika berbeda dari publishedAt)
-};
-
 import { notFound } from "next/navigation";
+import type { Metadata } from "@/types";
 
 /**
  * Mendapatkan daftar semua file MDX dalam direktori yang diberikan.

@@ -10,6 +10,9 @@ export {
   gallery,
   store,
   stream,
+  community,
+  podcast,
+  writer,
 } from "./content";
 
 export {

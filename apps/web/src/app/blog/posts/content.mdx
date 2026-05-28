@@ -1,0 +1,99 @@
+---
+title: "Memperbarui Konten Magic Portfolio"
+summary: "Personalisasi template portofolio dengan konten Anda sendiri."
+publishedAt: "2025-04-18"
+tag: "Magic Portfolio"
+---
+
+{/* 
+  @file content.mdx
+  @description Panduan lengkap untuk mempersonalisasi file resources/content.tsx.
+  
+  Panduan Maintenance:
+  - Dokumentasikan semua objek utama: person, social, home, about, store, stream.
+  - Berikan contoh kode untuk setiap bagian agar mudah disalin.
+  - Ingatkan developer untuk mengimpor komponen kustom jika digunakan dalam konten.
+*/}
+
+## Avatar
+
+Ganti file `public/images/avatar.jpg` dengan gambar avatar Anda sendiri. Gambar ini digunakan di halaman `/about` dan juga pada gambar `open-graph` yang di-generate secara dinamis.
+
+## Favicon
+
+Ganti file `src/app/favicon.ico` dengan favicon Anda sendiri.
+
+## Konten Utama
+
+Sebagian besar data dipusatkan di `src/resources/content.tsx`. Namun, untuk konten besar seperti **Store** dan **Stream**, datanya kini dipisahkan ke file masing-masing untuk kemudahan pengelolaan:
+- `src/resources/store.ts` (Produk, Jasa, Donasi)
+- `src/resources/stream.ts` (Link stream, Berita stream)
+
+### Detail Pribadi
+
+Detail pribadi Anda digunakan di seluruh aplikasi untuk merender heading, label, dan gambar yang dipersonalisasi.
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code:
+`const person = {
+    firstName: "Roy",
+    lastName: "Subagya",
+    name: "Roy Subagya Santoso",
+    role: "Software Engineer",
+    avatar: "/images/Avatar.png",
+    location: "Asia/Jakarta",
+    languages: ["English", "Bahama"],
+};`,
+    language: "tsx",
+    label: "src/resources/content.tsx"
+  }
+]} />
+
+### Link Sosial
+
+Link sosial dirender di halaman `/about` dan di footer berdasarkan array yang dikonfigurasi di objek `social`.
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code:
+`const social = [
+    {
+      name: "GitHub",
+      icon: "github",
+      link: "https://github.com/roysubagya",
+    },
+    {
+      name: "Email",
+      icon: "email",
+      link: "mailto:Roysubagya01@gmail.com",
+    },
+];`,
+    language: "tsx",
+    label: "src/resources/content.tsx"
+  }
+]} />
+
+### Halaman Beranda (Home)
+
+Objek `home` mengelola konten yang dipersonalisasi untuk halaman utama, termasuk judul SEO dan deskripsi.
+
+<CodeBlock
+    marginBottom="16"
+    codes={[
+  {
+    code:
+`const home = {
+    label: "Home",
+    title: "Portofolio Roy",
+    description: "Website portofolio yang menampilkan karya saya sebagai Software Engineer",
+    headline: <>Membangun solusi digital inovatif</>,
+};`,
+    language: "tsx",
+    label: "src/resources/content.tsx"
+  }
+]} />

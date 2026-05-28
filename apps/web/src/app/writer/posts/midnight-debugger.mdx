@@ -1,0 +1,20 @@
+---
+title: "Midnight Debugger"
+publishedAt: "2026-03-05"
+summary: "Kumpulan cerita pendek tentang kegagalan sistem di tengah malam dan pahlawan yang bekerja di balik layar."
+category: "Short Story"
+---
+
+Tidak ada yang lebih menakutkan bagi seorang SRE selain notifikasi PagerDuty pada jam 02:45 pagi.
+
+"Database connection pool exhausted," bunyi pesannya.
+
+Bagi Maya, ini adalah kopi ketiga malam ini. Bukan karena ia menyukai kopi dingin, tapi karena sistem produksinya sedang terbakar secara metaforis.
+
+### Sang Hantu di Mesin
+
+Masalahnya bukan pada trafik. Trafik sedang berada di titik terendah. Masalahnya adalah *zombie connections*. Sesuatu sedang membuka koneksi dan tidak pernah menutupnya. Sesuatu yang baru saja dideploy sepuluh menit yang lalu.
+
+Maya menarik git log. Hanya ada satu commit. "Minor CSS adjustment."
+
+*Tunggu, mengapa adjustment CSS menyentuh pool database?*

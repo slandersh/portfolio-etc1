@@ -1,0 +1,37 @@
+---
+title: "Menampilkan Karya Anda"
+summary: "Panduan untuk menambahkan proyek ke dalam portofolio Anda."
+publishedAt: "2025-04-29"
+tag: "Magic Portfolio"
+---
+
+{/* 
+  @file work.mdx
+  @description Panduan manajemen konten proyek dan studi kasus.
+  
+  Panduan Maintenance:
+  - Jelaskan struktur frontmatter khusus proyek (images, team, link).
+  - Pastikan panduan pembuatan file MDX baru di folder `src/app/work/projects` sudah jelas.
+*/}
+
+## Menambah Proyek Baru
+
+Semua proyek disimpan sebagai file `.mdx` di direktori:
+`src/app/work/projects/`
+
+## Format Metadata Proyek
+
+Proyek memerlukan beberapa informasi tambahan di frontmatter dibandingkan postingan blog biasa:
+
+<CodeBlock codes={[{ code: `---
+title: "Judul Proyek"
+publishedAt: "2026-03-01"
+summary: "Deskripsi singkat hasil karya."
+images: ["/images/projects/cvr-1.jpg", "/images/projects/cvr-2.jpg"]
+team: [{ name: "Nama", role: "Jabatan", avatar: "/img.jpg" }]
+link: "https://proyek-langsung.com"
+---`, language: 'markdown' }]} />
+
+## Visibilitas
+
+Halaman proyek akan secara otomatis muncul di rute `/work` dan juga di bagian "Projects" pada halaman beranda jika rute tersebut diaktifkan di konfigurasi.
